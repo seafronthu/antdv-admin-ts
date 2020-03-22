@@ -7,7 +7,7 @@ const list = [
     type: "PAGE",
     component: "Home",
     path: "home",
-    icon: "el-icon-s-home",
+    icon: "home",
     title: "首页"
   },
   {
@@ -17,7 +17,7 @@ const list = [
     type: "MENU",
     component: "Setting",
     path: "setting",
-    icon: "el-icon-setting",
+    icon: "setting",
     title: "设置"
   },
   {

@@ -1,6 +1,55 @@
+<!--  -->
+<template>
+  <div>
+    <Logo />
+    <a-menu
+      mode="inline"
+      :theme="theme"
+      @OpenChange="onOpenChange"
+      @Click="handleRouter"
+      :defaultOpenKeys="defaultOpenKeys"
+      :openKeys="openKeys"
+      :inlineCollapsed="collapse"
+      :defaultSelectedKeys="defaultSelectedKeys"
+      :selectedKeys="selectedKeys"
+    >
+      <a-menu-item key="1">
+        <a-icon type="mail" />
+        Navigation One
+      </a-menu-item>
+      <a-menu-item key="2">
+        <a-icon type="calendar" />
+        Navigation Two
+      </a-menu-item>
+      <a-sub-menu key="sub1">
+        <span slot="title"
+          ><a-icon type="appstore" /><span>Navigation Three</span></span
+        >
+        <a-menu-item key="3">Option 3</a-menu-item>
+        <a-menu-item key="4">Option 4</a-menu-item>
+        <a-sub-menu key="sub1-2" title="Submenu">
+          <a-menu-item key="5">Option 5</a-menu-item>
+          <a-menu-item key="6">Option 6</a-menu-item>
+        </a-sub-menu>
+      </a-sub-menu>
+      <a-sub-menu key="sub2">
+        <span slot="title"
+          ><a-icon type="setting" /><span>Navigation Four</span></span
+        >
+        <a-menu-item key="7">Option 7</a-menu-item>
+        <a-menu-item key="8">Option 8</a-menu-item>
+        <a-menu-item key="9">Option 9</a-menu-item>
+        <a-menu-item key="10">Option 10</a-menu-item>
+      </a-sub-menu>
+    </a-menu>
+  </div>
+</template>
+
+<script lang="ts">
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 import { Component, Vue, Prop, Model } from "vue-property-decorator";
-import SubMenu from "./sub-menu";
+import Logo from "./logo";
+// import SubMenu from "./sub-menu";
 import { RouteGlobal } from "@/types/route";
 import { arrageMenu } from "@l/manage";
 import { CreateElement, VNode } from "vue/types/umd";
@@ -9,7 +58,11 @@ interface ToRoutes {
   name: string;
   meta: RouteGlobal.BackMetaINF;
 }
-@Component
+@Component({
+  components: {
+    Logo
+  }
+})
 export default class Menu extends Vue {
   @Prop({
     type: String
@@ -49,23 +102,7 @@ export default class Menu extends Vue {
   onOpenChange(openKeys: string[]) {
     this.openKeys = openKeys;
   }
-  handleRouter({ item, key, keyPath }: {
-    item: string,
-    key: string,
-    keyPath: string
-  }) {
-    console.log("click", item, key, keyPath)
-    this.selectedKeys = [key]
-    // this.$routerPush({ name: key });
-  }
-  handleSelected({ item, key, keyPath }: {
-    item: string,
-    key: string,
-    keyPath: string
-  }) {
-    console.log("selected", item, key, keyPath)
-    // this.$routerPush({ name: key });
-  }
+  handleRouter() {}
   private changeMenu(to: ToRoutes) {
     if (!to.meta.hideMenu) {
       this.defaultSelectedKeys = [to.name];
@@ -83,39 +120,6 @@ export default class Menu extends Vue {
       name: name as string
     });
   }
-  render(h: CreateElement) {
-    const {
-      theme,
-      onOpenChange,
-      handleRouter,
-      defaultOpenKeys,
-      openKeys,
-      defaultSelectedKeys,
-      selectedKeys,
-      themeColor,
-      collapse,
-      handleSelected,
-      menuList
-    } = this;
-    const ResultJSXEle = menuList.map(v => SubMenu(h, v));
-    return (
-      <div>
-        <a-menu
-          mode="inline"
-          theme={theme}
-          onOpenChange={onOpenChange}
-          onClick={handleRouter}
-          onSelected={handleSelected}
-          defaultOpenKeys={defaultOpenKeys}
-          openKeys={openKeys}
-          inlineCollapsed={false}
-          defaultSelectedKeys={defaultSelectedKeys}
-          selectedKeys={selectedKeys}
-          class={["not-select", `menu-${themeColor}`]}
-        >
-          {ResultJSXEle}
-        </a-menu>
-      </div>
-    );
-  }
 }
+</script>
+<style lang="stylus" scoped></style>

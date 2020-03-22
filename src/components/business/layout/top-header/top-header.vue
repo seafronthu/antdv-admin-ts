@@ -1,11 +1,18 @@
 <!-- 顶部头 -->
 <template>
-  <div class="top-header"></div>
+  <div class="top-header flex-row-between-center">
+    <Logo />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-@Component
+import Logo from "../logo";
+@Component({
+  components: {
+    Logo
+  }
+})
 export default class TopHeader extends Vue {}
 </script>
 <style lang="stylus">

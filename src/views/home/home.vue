@@ -29,12 +29,10 @@ export default class Home extends Vue {
   num: number = 0;
   val: string = "0";
   handleClick() {
-    console.log(this.$router);
     this.$routerPush({ name: "Default" });
   }
   created() {
-    console.log(this.$route);
-    console.log("home, created");
+    // console.log("home, created");
     // this.addNum();
   }
 }

@@ -13,13 +13,18 @@
         @close="handleClose"
         :visible="collapse"
       >
-        <Menu v-model="collapse" />
+        <Menu :collapse="collapse" theme="dark" />
       </a-drawer>
-      <a-layout-sider v-else>
-        <Menu v-model="collapse" />
+      <a-layout-sider
+        v-else
+        :collapsible="true"
+        v-model="collapse"
+        width="256px"
+      >
+        <Menu :collapse="collapse" theme="dark" />
       </a-layout-sider>
       <a-layout>
-        <a-layout-header>
+        <a-layout-header style="padding: 0; height: auto; line-height: initial">
           <SecondHeader v-model="collapse" />
           <TabNav :tab-nav-list="tabList" />
         </a-layout-header>
@@ -197,6 +202,8 @@ export default class Layout extends DeviceMixin {
 </script>
 <style lang="stylus">
 .layout
+  min-height 100vh
+  overflow-x hidden
   .layout-header
     padding 0
   // .layout-aside // 覆盖样式（为了防止menu滚动导致超出指定宽度从而影响其他容器的大小）

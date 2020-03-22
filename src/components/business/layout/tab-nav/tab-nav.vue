@@ -79,7 +79,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import IconFont from "@h/icon-font";
-import TagButton from "@b/tag-button";
+import TagButton from "@/components/tag-button";
 import {
   closeCurrentTab,
   closeRightTab,
