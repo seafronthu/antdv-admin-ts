@@ -54,7 +54,7 @@
               :type="item.type"
               :closable="!item.notClosed"
               @trigger-click="handleClick(item)"
-              trigger="click"
+              :trigger="['click']"
               @trigger-command="command => handleCommand(item, command, index)"
               dot
             >
@@ -79,7 +79,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import IconFont from "@h/icon-font";
-import TagButton from "@/components/tag-button";
+import TagButton from "@b/tag-button";
 import {
   closeCurrentTab,
   closeRightTab,
