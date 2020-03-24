@@ -9,21 +9,21 @@
         <i>I</i>
         <i>N</i>
       </h5>
-      <el-form :model="ruleForm" ref="ruleForm" :rules="rules">
-        <el-form-item prop="account">
-          <el-input
+      <a-form-model :model="ruleForm" ref="ruleForm" :rules="rules">
+        <a-form-model prop="account">
+          <a-input
             v-model="ruleForm.account"
-            prefix-icon="el-icon-user"
+            prefix-icon="a-icon-user"
             placeholder="请输入账号"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="pass">
-          <el-input
+          ></a-input>
+        </a-form-model>
+        <a-form-model prop="pass">
+          <a-input
             :type="pswType"
             v-model="ruleForm.pass"
             autocomplete="off"
             placeholder="请输入密码"
-            prefix-icon="el-icon-lock"
+            prefix-icon="a-icon-lock"
           >
             <template #suffix>
               <i
@@ -32,19 +32,19 @@
                 style="color: #333333;"
               ></i>
             </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button
+          </a-input>
+        </a-form-model>
+        <a-form-model>
+          <a-button
             type="primary"
             size="medium"
             @click="handleSubmit"
             class="login-btn"
             :loading="loading"
-            >登录</el-button
+            >登录</a-button
           >
-        </el-form-item>
-      </el-form>
+        </a-form-model>
+      </a-form-model>
     </div>
   </div>
 </template>

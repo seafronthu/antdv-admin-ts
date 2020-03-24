@@ -18,10 +18,8 @@ function addStyleResource(rule) {
 const isProduction = process.env.NODE_ENV === "production";
 const externals = isProduction
   ? {
-      wx: "wx", // 键名是引入的名字 键值是全局变量名
       vue: "Vue",
-      vant: "vant",
-      "element-ui": "ElementUI",
+      "ant-design-vue": "antd",
       jsencrypt: "JSEncrypt",
       moment: "moment"
     }

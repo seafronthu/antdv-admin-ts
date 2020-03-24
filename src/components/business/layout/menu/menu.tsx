@@ -1,5 +1,5 @@
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
-import { Component, Vue, Prop, Model } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import SubMenu from "./sub-menu";
 import { RouteGlobal } from "@/types/route";
 import { arrageMenu } from "@l/manage";
@@ -32,8 +32,8 @@ export default class Menu extends Vue {
   })
   collapse!: boolean;
   // data
-  openKeys: string[] = [];
   selectedKeys: string[] = [];
+  openKeys: string[] = [];
   defaultSelectedKeys: string[] = [];
   defaultOpenKeys: string[] = [];
   // state
@@ -45,35 +45,53 @@ export default class Menu extends Vue {
   };
   @App.State(state => state.authorizationList)
   public authorizationList!: RouteGlobal.BackStageRoutesObjINF[];
+  // watch
+  @Watch("$route")
+  watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
+    const { meta, name } = this.$route;
+    this.changeMenu({
+      meta,
+      name: name as string
+    });
+  }
   // methods
   onOpenChange(openKeys: string[]) {
     this.openKeys = openKeys;
   }
-  handleRouter({ item, key, keyPath }: {
-    item: string,
-    key: string,
-    keyPath: string
+  handleRouter({
+    item,
+    key,
+    keyPath
+  }: {
+    item: VNode;
+    key: string;
+    keyPath: string;
   }) {
-    console.log("click", item, key, keyPath)
-    this.selectedKeys = [key]
-    // this.$routerPush({ name: key });
+    this.selectedKeys = [key];
+    this.$routerPush({ name: key });
   }
-  handleSelected({ item, key, keyPath }: {
-    item: string,
-    key: string,
-    keyPath: string
+  handleSelected({
+    item,
+    key,
+    keyPath
+  }: {
+    item: string;
+    key: string;
+    keyPath: string;
   }) {
-    console.log("selected", item, key, keyPath)
+    console.log("selected", item, key, keyPath);
     // this.$routerPush({ name: key });
   }
   private changeMenu(to: ToRoutes) {
     if (!to.meta.hideMenu) {
-      this.defaultSelectedKeys = [to.name];
+      // this.defaultSelectedKeys = [to.name];
+      this.selectedKeys = [to.name];
       const matched = to.meta.matched || [];
       const currOpenMenu = matched
         .filter(v => v.meta.type === "MENU" && !v.meta.hideMenu)
         .map(v => v.name);
-      this.defaultOpenKeys = currOpenMenu;
+      this.openKeys = currOpenMenu;
+      // this.defaultOpenKeys = currOpenMenu;
     }
   }
   created() {

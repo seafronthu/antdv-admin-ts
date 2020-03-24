@@ -6,56 +6,47 @@
     :loading="loading"
   >
     <template #header>
-      <el-form ref="form" class="form" :model="searchForm" size="medium">
-        <el-row>
-          <el-col v-bind="col">
-            <el-form-item>
-              <el-input
+      <a-form ref="form" class="form" :model="searchForm" size="medium">
+        <a-row>
+          <a-col v-bind="col">
+            <a-form-item>
+              <a-input
                 class="input"
                 placeholder="请输入搜索内容"
-                prefix-icon="el-icon-search"
                 v-model="searchForm.name"
               >
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col v-bind="dateCol">
-            <el-form-item>
-              <el-date-picker
-                v-model="searchForm.date"
-                type="daterange"
-                unlink-panels
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col v-bind="col">
-            <el-form-item>
-              <el-button type="primary">搜索</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+                <template #prefix>
+                  <a-icon type="search" />
+                </template>
+              </a-input>
+            </a-form-item>
+          </a-col>
+          <a-col v-bind="dateCol">
+            <a-form-item>
+              <a-range-picker @change="handleChangeDate" />
+            </a-form-item>
+          </a-col>
+          <a-col v-bind="col">
+            <a-form-item>
+              <a-button type="primary">搜索</a-button>
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
     </template>
     <div class="padding-0-20">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="index" label="序号" width="180">
-        </el-table-column>
-        <el-table-column prop="date" label="日期" width="180">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-      </el-table>
+      <a-table
+        :dataSource="tableData"
+        :columns="columns"
+        style="width: 100%"
+      ></a-table>
     </div>
   </ContainerFluid>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { personalInformationColumn } from "@/views/setting/tables";
 interface SearchFormINF {
   name: string;
   date: string;
@@ -87,9 +78,15 @@ export default class PersonalInformation extends Vue {
       name: "王小虎",
       address: "上海市普陀区金沙江路 1518 弄"
     })
-    .map((v, i) => ({ ...v, index: i + 1 }));
+    .map((v, i) => ({ ...v, key: i, index: i + 1 }));
+  columns = personalInformationColumn;
+  // methods
+  handleChangeDate() {}
   mounted() {
-    setTimeout(() => (this.loading = false), 1000);
+    setTimeout(() => {
+      this.loading = false;
+      console.log(this.tableData, this.columns);
+    }, 1000);
   }
 }
 </script>

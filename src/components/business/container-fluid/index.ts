@@ -1,2 +1,2 @@
-import ContainerFluid from "./container-fluid.vue";
+import ContainerFluid from "./container-fluid";
 export default ContainerFluid;

@@ -6,6 +6,7 @@
         class="flex-row-start-center not-select"
         :closable="closable"
         :style="stylesMerge"
+        :color="tagColor"
         @close="handleClose"
         @click="handleTagClick"
       >
@@ -17,9 +18,11 @@
         <slot></slot>
         <!-- <a-icon type="close-circle" /> -->
       </a-tag>
-      <a-menu slot="overlay" @click="handleMenuClick">
-        <slot name="menu"></slot>
-      </a-menu>
+      <template #overlay>
+        <a-menu @click="handleMenuClick">
+          <slot name="menu"></slot>
+        </a-menu>
+      </template>
     </a-dropdown>
   </div>
 </template>
@@ -27,10 +30,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import IconFont from "@h/icon-font";
+import { VNode } from "vue";
 export interface MenuOptionINF {
-  item: string;
+  item: VNode;
   key: string;
-  keyPath: string;
+  keyPath: string[];
 }
 @Component({
   components: {
@@ -39,10 +43,11 @@ export interface MenuOptionINF {
 })
 export default class TagButton extends Vue {
   colorType = {
-    success: "",
-    primary: "",
-    warning: "",
-    danger: "",
+    success: "#52c41a",
+    primary: "#1890ff",
+    info: "#2db7f5",
+    warning: "#faad14",
+    danger: "#f5222d",
     default: ""
   };
   @Prop({
@@ -64,7 +69,7 @@ export default class TagButton extends Vue {
   @Prop({ type: String }) color?: string;
   @Prop({ type: String }) size?: string;
   @Prop({ type: String, default: "default" })
-  type!: "default" | "success" | "primary" | "warning" | "danger";
+  type!: "default" | "success" | "primary" | "warning" | "danger" | "info";
   @Prop({
     type: String
   })

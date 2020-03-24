@@ -3,29 +3,29 @@
   <div class="tab-nav">
     <!-- 清除所有按钮 -->
     <div class="btn close-btn">
-      <el-dropdown @command="handleCloseAll">
+      <a-dropdown>
         <div class="close-link flex-row-center">
           <IconFont icon="clear" width="1.5em" height="1.5em" />
         </div>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="CLOSE_All">关闭所有</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+        <template #overlay>
+          <a-menu @click="handleCloseAll">
+            <a-menu-item>关闭所有</a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
     </div>
     <!-- 选项卡 -->
     <div class="main">
-      <el-button
+      <a-button
+        icon="caret-left"
         class="btn left-btn flex-row-center"
         @click="scrollFunc(200)"
-        icon="el-icon-caret-left"
-      ></el-button>
-      <el-button
-        icon="el-icon-caret-right"
+      ></a-button>
+      <a-button
+        icon="caret-right"
         class="btn right-btn flex-row-center"
         @click="scrollFunc(-200)"
-      >
-        <!-- <a-icon type="caret-right" /> -->
-      </el-button>
+      ></a-button>
       <!-- 选项卡容器 -->
       <div
         class="wrap"
@@ -53,21 +53,24 @@
               :effect="item.effect"
               :type="item.type"
               :closable="!item.notClosed"
-              @trigger-click="handleClick(item)"
-              :trigger="['click']"
-              @trigger-command="command => handleCommand(item, command, index)"
+              @trigger-close="
+                handleClose({ item, command: 'CLOSE_CURRENT', index })
+              "
+              @trigger-tag-click="handleClick(item)"
+              :trigger="['contextmenu']"
+              @trigger-menu-click="
+                menuOption => handleCommand(item, menuOption, index)
+              "
               dot
             >
               {{ item.title }}
               <template #menu>
-                <el-dropdown-item
+                <a-menu-item
                   v-for="its of dropdownItemList"
-                  :command="its.type"
                   :key="its.type"
                   :disabled="!isCloseFunc(item, its, index)"
+                  >{{ its.title }}</a-menu-item
                 >
-                  {{ its.title }}
-                </el-dropdown-item>
               </template>
             </TagButton>
           </transition-group>
@@ -89,6 +92,7 @@ import {
 } from "./utils";
 import { RouteGlobal } from "@/types/route";
 import { Mutation, State } from "vuex-class";
+import { MenuOptionINF } from "@b/tag-button/tag-button.vue";
 type DropdownType =
   | "CLOSE_All"
   | "CLOSE_OTHER"
@@ -150,18 +154,15 @@ export default class extends Vue {
   tabNavList!: RouteGlobal.TabObjINF[];
   get newTabNavList() {
     return this.tabNavList.map(v => {
-      let effect: string = "plain";
-      let type: string = "info";
+      let type: string = "default";
       if (v.checked) {
-        effect = "dark";
-        type = v.modified && v.beforeClosedCallback ? "warning" : "";
+        type = v.modified && v.beforeClosedCallback ? "warning" : "primary";
       } else if (v.modified && v.beforeClosedCallback) {
         type = "warning";
       }
       return {
         ...v,
-        type,
-        effect
+        type
       };
     });
   }
@@ -299,9 +300,10 @@ export default class extends Vue {
   }
   handleCommand(
     item: RouteGlobal.TabObjINF,
-    command: DropdownType,
+    menuOption: MenuOptionINF,
     index: number
   ) {
+    let command: DropdownType = menuOption.key as DropdownType;
     if (command === "REFRESH") {
       this.$routerReplace({
         name: item.name,
