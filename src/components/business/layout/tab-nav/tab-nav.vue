@@ -80,7 +80,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import IconFont from "@h/icon-font";
 import TagButton from "@b/tag-button";
 import {
@@ -122,7 +122,7 @@ export default class extends Vue {
   $refs!: {
     scrollWrap: HTMLDivElement;
     scrollContainer: HTMLDivElement;
-    tabNavRef: HTMLDivElement[];
+    tabNavRef: Vue[];
   };
   dropdownItemList: DropdownItemObjINF[] = [
     {
@@ -151,8 +151,20 @@ export default class extends Vue {
     }
   ];
   diverge: number = 0;
-  @Prop()
+  @Prop({
+    type: Array,
+    default() {
+      return [];
+    }
+  })
   tabNavList!: RouteGlobal.TabObjINF[];
+  @Prop({
+    type: Object,
+    default() {
+      return {};
+    }
+  })
+  checkedTab!: RouteGlobal.TabObjINF;
   get newTabNavList() {
     return this.tabNavList.map(v => {
       let type: string = "default";
@@ -184,6 +196,19 @@ export default class extends Vue {
       command: "CLOSE_All"
     });
   }
+  @Watch("checkedTab")
+  watchCheckedTab(
+    currVal: RouteGlobal.TabObjINF,
+    oldVal: RouteGlobal.TabObjINF
+  ) {
+    console.log(currVal, oldVal);
+    this.chooseNavTag(currVal);
+  }
+  // @Watch("num")
+  // watchNum(currVal: number) {
+  //   console.log(currVal);
+  // }
+  /**methods */
   isCloseFunc(
     item: RouteGlobal.TabObjINF,
     its: { type: DropdownType; title: string },
@@ -294,8 +319,9 @@ export default class extends Vue {
         this.diverge = 0; // 没有超出容器不偏移
       }
     }
-  } // 选中之后根据位置进行偏移
-  chooseToMoveFunc(ele: HTMLDivElement) {
+  }
+  // 选中之后根据位置进行偏移
+  chooseToMoveFunc(ele: HTMLElement) {
     let wrapWidth = this.$refs.scrollWrap.offsetWidth;
     let containerWidth = this.$refs.scrollContainer.offsetWidth;
     let tagOffsetLeft = ele.offsetLeft;
@@ -317,11 +343,12 @@ export default class extends Vue {
     }
   }
   // 选中的标签页
-  chooseNavTag(item: RouteGlobal.TabObjINF, index: number) {
+  chooseNavTag(item: RouteGlobal.TabObjINF) {
     if (item.name) {
       this.$nextTick(() => {
         let tabNavRef = this.$refs.tabNavRef;
-        let ele = tabNavRef[index];
+        const index = this.tabNavList.findIndex(v => v.key === item.key);
+        let ele = tabNavRef[index].$el as HTMLElement;
         this.chooseToMoveFunc(ele);
       });
     }
@@ -346,6 +373,9 @@ export default class extends Vue {
       return;
     }
     this.handleClose({ item, command, index });
+  }
+  updated() {
+    console.log(this.checkedTab, 111);
   }
   mounted() {}
 }

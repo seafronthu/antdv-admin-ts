@@ -26,7 +26,7 @@
       <a-layout>
         <a-layout-header style="padding: 0; height: auto; line-height: initial">
           <SecondHeader v-model="collapse" />
-          <TabNav :tab-nav-list="tabList" />
+          <TabNav :tab-nav-list="tabList" :checked-tab="checkedTab" />
         </a-layout-header>
         <a-layout-content>
           <transition
@@ -67,8 +67,11 @@ const App = namespace("app");
 })
 // @Component({ MenuList })
 export default class Layout extends DeviceMixin {
+  private timer: number | undefined = void 0;
   collapse: boolean = false;
   headerHeight: string = "45px";
+  checkedTab!: RouteGlobal.TabObjINF;
+  num: number = 0;
   @App.State("tabList") tabList!: RouteGlobal.TabObjINF[]; // 标签页列表
   @App.State("cacheRoutesList") cacheRoutesList!: RouteGlobal.RouteINF[]; // 缓存路由列表
   @App.Getter("cacheNameList") cacheNameList!: string[]; // 缓存路由名字列表
@@ -182,6 +185,21 @@ export default class Layout extends DeviceMixin {
         createTime: +new Date()
       });
     }
+    this.checkedTab = {
+      name,
+      key: fullPath,
+      query,
+      params,
+      redirect,
+      title,
+      beforeClosedCallback,
+      notClosed,
+      checked: true,
+      hideTab,
+      notCache,
+      // notSingleTab,
+      createTime: +new Date()
+    };
     this.APP_SETTABLIST_MUTATE(tabList);
     // let newTabList = this.tabList.filter(v =>
     //   v.notSingleTab ? v : v.name === to.name
@@ -198,7 +216,14 @@ export default class Layout extends DeviceMixin {
     this.collapse = false;
   }
   handleResize() {
-    this.APP_SETTABLIST_MUTATE([...this.tabList]);
+    clearTimeout(this.timer);
+    this.timer = undefined;
+    this.timer = setTimeout(() => {
+      const checkedTab = this.checkedTab;
+      this.checkedTab = { ...this.checkedTab };
+      console.log(this.checkedTab === checkedTab);
+      this.num++;
+    }, 300);
   }
   /** life cycle ***/
 
