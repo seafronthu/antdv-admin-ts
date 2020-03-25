@@ -2,7 +2,7 @@ import { userModule } from "@s/index";
 import axios, { ResponseType } from "axios";
 import route from "@/routes";
 import config from "@/config";
-import { Message } from "element-ui";
+import { message } from "ant-design-vue";
 const { initialPageName } = config;
 import qs from "qs";
 interface MapT {
@@ -95,7 +95,7 @@ axios.interceptors.response.use(
       case 1000:
         // 未登录
         if (LOGOUT_CODE.includes(code)) {
-          Message.warning(data.message);
+          message.warning(data.message);
           route.push(initialPageName);
         }
         return response;

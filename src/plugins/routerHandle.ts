@@ -6,6 +6,7 @@ function install(vm: VueConstructor) {
     let { APP_SETCACHEROUTES_MUTATE } = appModule;
     const {
       refresh = false,
+      path,
       name,
       query,
       params,
@@ -34,6 +35,7 @@ function install(vm: VueConstructor) {
     }
     this.$router.push(
       {
+        path,
         name,
         query,
         params

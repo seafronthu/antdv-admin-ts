@@ -39,6 +39,16 @@ const list = [
     path: "personal-information",
     icon: "",
     title: "个人信息"
+  },
+  {
+    parentId: 3,
+    id: 5,
+    description: "@cparagraph(1, 2)",
+    type: "PAGE",
+    component: "UserList",
+    path: "user-list",
+    icon: "",
+    title: "用户列表"
   }
 ];
 export function getRoute() {

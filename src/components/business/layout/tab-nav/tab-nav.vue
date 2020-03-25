@@ -122,6 +122,7 @@ export default class extends Vue {
   $refs!: {
     scrollWrap: HTMLDivElement;
     scrollContainer: HTMLDivElement;
+    tabNavRef: HTMLDivElement[];
   };
   dropdownItemList: DropdownItemObjINF[] = [
     {
@@ -292,6 +293,37 @@ export default class extends Vue {
       } else {
         this.diverge = 0; // 没有超出容器不偏移
       }
+    }
+  } // 选中之后根据位置进行偏移
+  chooseToMoveFunc(ele: HTMLDivElement) {
+    let wrapWidth = this.$refs.scrollWrap.offsetWidth;
+    let containerWidth = this.$refs.scrollContainer.offsetWidth;
+    let tagOffsetLeft = ele.offsetLeft;
+    let tagWidth = ele.offsetWidth;
+    if (wrapWidth > containerWidth) {
+      // 内容没有超出容器宽度
+      this.diverge = 0; // 不偏移
+    } else if (tagOffsetLeft < -this.diverge) {
+      // 偏移是负的绝对值大于标签offsetLeft即在可视区左边
+      if (wrapWidth > tagOffsetLeft + tagWidth) {
+        // 左边距小于容器
+        this.diverge = 0;
+      } else {
+        this.diverge = -(tagOffsetLeft + tagWidth - wrapWidth);
+      }
+    } else if (tagOffsetLeft + tagWidth > wrapWidth - this.diverge) {
+      // 偏移的距离加上容器的宽度小于offsetLeft即在可视区右边
+      this.diverge = -(tagOffsetLeft + tagWidth - wrapWidth);
+    }
+  }
+  // 选中的标签页
+  chooseNavTag(item: RouteGlobal.TabObjINF, index: number) {
+    if (item.name) {
+      this.$nextTick(() => {
+        let tabNavRef = this.$refs.tabNavRef;
+        let ele = tabNavRef[index];
+        this.chooseToMoveFunc(ele);
+      });
     }
   }
   handleClick(item: RouteGlobal.TabObjINF) {

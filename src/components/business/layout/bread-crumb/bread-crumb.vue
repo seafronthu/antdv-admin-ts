@@ -1,22 +1,32 @@
 <!-- 面包屑 -->
 <template>
   <div class="bread-crumb">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item v-if="$route.name !== 'Home'" :to="{ path: '/' }"
-        >首页</el-breadcrumb-item
-      >
-      <template v-for="(items, index) of breadcrumbList">
-        <el-breadcrumb-item
-          :key="items.name"
-          v-if="items.type === 'PAGE' && index < breadcrumbList.length - 1"
-          :to="{ path: items.path }"
-          >{{ items.title }}</el-breadcrumb-item
+    <a-breadcrumb>
+      <a-breadcrumb-item v-if="$route.name !== 'Home'" key="default">
+        <a href="javascript:void 0;" @click="handleRouter({ path: '/' })"
+          ><a-icon type="home" />首页</a
         >
-        <el-breadcrumb-item :key="items.name" v-else>{{
-          items.title
-        }}</el-breadcrumb-item>
+      </a-breadcrumb-item>
+      <template>
+        <a-breadcrumb-item
+          v-for="(items, index) of breadcrumbList"
+          :key="items.name"
+        >
+          <a
+            href="javascript:void 0;"
+            v-if="items.type === 'PAGE' && index < breadcrumbList.length - 1"
+            @click="handleRouter({ name: items.name })"
+          >
+            <a-icon v-if="items.icon" :type="items.icon" />
+            {{ items.title }}
+          </a>
+          <template v-else>
+            <a-icon v-if="items.icon" :type="items.icon" />
+            {{ items.title }}
+          </template>
+        </a-breadcrumb-item>
       </template>
-    </el-breadcrumb>
+    </a-breadcrumb>
   </div>
 </template>
 
@@ -27,6 +37,11 @@ import { RouteGlobal } from "@/types/route";
 export default class BreadCrumb extends Vue {
   @InjectReactive("breadcrumbList")
   readonly breadcrumbList!: RouteGlobal.BreadcrumbINF[];
+  // methods
+  handleRouter(to: { name?: string; path?: string }) {
+    console.log(to);
+    this.$routerPush(to);
+  }
 }
 </script>
 <style lang="stylus" scoped></style>

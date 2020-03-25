@@ -85,7 +85,6 @@ export default class PersonalInformation extends Vue {
   mounted() {
     setTimeout(() => {
       this.loading = false;
-      console.log(this.tableData, this.columns);
     }, 1000);
   }
 }

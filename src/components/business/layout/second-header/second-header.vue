@@ -2,7 +2,7 @@
 <template>
   <div class="second-header flex-row-start-center flex-nowrap">
     <span class="trigger" @click="handleCollapse">
-      <i :class="collapseCls"></i>
+      <a-icon :type="collapseType" />
     </span>
     <BreadCrumb />
   </div>
@@ -18,8 +18,8 @@ import BreadCrumb from "../bread-crumb";
 })
 export default class SecondHeader extends Vue {
   @Model("trigger-collapse") collapse: boolean = false;
-  get collapseCls() {
-    return this.collapse ? "el-icon-s-unfold" : "el-icon-s-fold";
+  get collapseType() {
+    return this.collapse ? "menu-unfold" : "menu-fold";
   }
   public handleCollapse() {
     this.$emit("trigger-collapse", !this.collapse);

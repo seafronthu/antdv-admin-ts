@@ -130,7 +130,7 @@ export default class ContainerFluid extends Vue {
       <div class="container-fluid" ref="container" style={containerStyle}>
         <a-spin {...{ props }}>
           <template slot="indicator">
-            <hhf-icon type="hhf-icon-loading-fan" style={iconStyle} spin />
+            <antd-icon type="hhf-icon-loading-fan" style={iconStyle} spin />
           </template>
           <div class="container-fluid-main">
             {header}

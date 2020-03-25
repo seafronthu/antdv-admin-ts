@@ -2,7 +2,6 @@
 <template>
   <div class="home">
     <img alt="Vue logo" :src="require('@a/img/logo.png')" />
-    <el-link type="primary">主要链接</el-link>
     <p><input v-model="val" /></p>
     <AnimateNumber
       :start-num="1000"

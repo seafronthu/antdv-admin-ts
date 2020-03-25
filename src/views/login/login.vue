@@ -11,11 +11,9 @@
       </h5>
       <a-form-model :model="ruleForm" ref="ruleForm" :rules="rules">
         <a-form-model prop="account">
-          <a-input
-            v-model="ruleForm.account"
-            prefix-icon="a-icon-user"
-            placeholder="请输入账号"
-          ></a-input>
+          <a-input v-model="ruleForm.account" placeholder="请输入账号">
+            <a-icon #prefix type="a-icon-user" />
+          </a-input>
         </a-form-model>
         <a-form-model prop="pass">
           <a-input
@@ -23,24 +21,23 @@
             v-model="ruleForm.pass"
             autocomplete="off"
             placeholder="请输入密码"
-            prefix-icon="a-icon-lock"
           >
-            <template #suffix>
-              <i
-                :class="['hhf-iconfont', eyeCls]"
-                @click="handleEyeClick"
-                style="color: #333333;"
-              ></i>
-            </template>
+            <a-icon #prefix type="a-icon-lock" />
+            <antd-icon
+              #suffix
+              :type="eyeCls"
+              @click="handleEyeClick"
+              style="color: #333333;"
+            />
           </a-input>
         </a-form-model>
         <a-form-model>
           <a-button
             type="primary"
-            size="medium"
             @click="handleSubmit"
             class="login-btn"
             :loading="loading"
+            block
             >登录</a-button
           >
         </a-form-model>

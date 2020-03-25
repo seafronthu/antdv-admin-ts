@@ -64,7 +64,7 @@ router.beforeEach((to: Route, from: Route, next) => {
         if (redirect) {
           next({ path: redirect, replace: true });
         } else if (!to.name) {
-          next({ ...to, replace: true });
+          next({ path: to.path, replace: true });
         } else {
           next({ name: to.name, replace: true });
         }

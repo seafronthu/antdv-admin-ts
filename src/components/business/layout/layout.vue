@@ -93,6 +93,7 @@ export default class Layout extends DeviceMixin {
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
     this.changeRouteDeal(to);
   }
+  // animate
   enter(el: Element, done: () => void) {
     // 去除动画的时候出现滚动条
     document.body.style.overflow = "hidden";
@@ -110,6 +111,7 @@ export default class Layout extends DeviceMixin {
     document.body.style.overflow = "";
     done();
   }
+  // methods
   // 处理面包屑
   dealBreadCrumb(meta: RouteGlobal.BackMetaINF) {
     this.breadcrumbList = meta && meta.breadcrumb ? meta.breadcrumb : [];
@@ -195,8 +197,20 @@ export default class Layout extends DeviceMixin {
   handleClose() {
     this.collapse = false;
   }
+  handleResize() {
+    this.APP_SETTABLIST_MUTATE([...this.tabList]);
+  }
+  /** life cycle ***/
+
   created() {
     this.changeRouteDeal(this.$route as RouteGlobal.RouteINF);
+  }
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+  }
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+    // document.body.classList.remove('bgcolor-f2')
   }
 }
 </script>
