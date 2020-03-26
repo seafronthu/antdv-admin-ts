@@ -26,7 +26,7 @@
       <a-layout>
         <a-layout-header style="padding: 0; height: auto; line-height: initial">
           <SecondHeader v-model="collapse" />
-          <TabNav :tab-nav-list="tabList" :checked-tab="checkedTab" />
+          <TabNav :tab-nav-list="tabList" :num="num" :value="checkedTab" />
         </a-layout-header>
         <a-layout-content>
           <transition
@@ -222,7 +222,7 @@ export default class Layout extends DeviceMixin {
       const checkedTab = this.checkedTab;
       this.checkedTab = { ...this.checkedTab };
       console.log(this.checkedTab === checkedTab);
-      this.num++;
+      // this.num++;
     }, 300);
   }
   /** life cycle ***/

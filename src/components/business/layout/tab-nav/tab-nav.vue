@@ -151,6 +151,10 @@ export default class extends Vue {
     }
   ];
   diverge: number = 0;
+  // @Prop({
+  //   type: Number
+  // })
+  // num?: number;
   @Prop({
     type: Array,
     default() {
@@ -164,7 +168,7 @@ export default class extends Vue {
       return {};
     }
   })
-  checkedTab!: RouteGlobal.TabObjINF;
+  value!: RouteGlobal.TabObjINF;
   get newTabNavList() {
     return this.tabNavList.map(v => {
       let type: string = "default";
@@ -196,7 +200,11 @@ export default class extends Vue {
       command: "CLOSE_All"
     });
   }
-  @Watch("checkedTab")
+  // @Watch("num")
+  // watchNum(currVal: number) {
+  //   console.log("num", currVal);
+  // }
+  @Watch("value")
   watchCheckedTab(
     currVal: RouteGlobal.TabObjINF,
     oldVal: RouteGlobal.TabObjINF
@@ -204,10 +212,6 @@ export default class extends Vue {
     console.log(currVal, oldVal);
     this.chooseNavTag(currVal);
   }
-  // @Watch("num")
-  // watchNum(currVal: number) {
-  //   console.log(currVal);
-  // }
   /**methods */
   isCloseFunc(
     item: RouteGlobal.TabObjINF,
@@ -348,6 +352,9 @@ export default class extends Vue {
       this.$nextTick(() => {
         let tabNavRef = this.$refs.tabNavRef;
         const index = this.tabNavList.findIndex(v => v.key === item.key);
+        if (!~index) {
+          return;
+        }
         let ele = tabNavRef[index].$el as HTMLElement;
         this.chooseToMoveFunc(ele);
       });
@@ -374,10 +381,6 @@ export default class extends Vue {
     }
     this.handleClose({ item, command, index });
   }
-  updated() {
-    console.log(this.checkedTab, 111);
-  }
-  mounted() {}
 }
 </script>
 <style lang="stylus" scoped>
