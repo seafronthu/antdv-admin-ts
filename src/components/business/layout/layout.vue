@@ -26,7 +26,7 @@
       <a-layout>
         <a-layout-header style="padding: 0; height: auto; line-height: initial">
           <SecondHeader v-model="collapse" />
-          <TabNav :tab-nav-list="tabList" :num="num" :value="checkedTab" />
+          <TabNav :tab-nav-list="tabList" :value="checkedTab" />
         </a-layout-header>
         <a-layout-content>
           <transition
@@ -70,8 +70,7 @@ export default class Layout extends DeviceMixin {
   private timer: number | undefined = void 0;
   collapse: boolean = false;
   headerHeight: string = "45px";
-  checkedTab!: RouteGlobal.TabObjINF;
-  num: number = 0;
+  checkedTab: RouteGlobal.TabObjINF | {} = {}; // 一定要赋值，只定义的话typescript编译之后会把这个属性去掉，这回导致watch失效
   @App.State("tabList") tabList!: RouteGlobal.TabObjINF[]; // 标签页列表
   @App.State("cacheRoutesList") cacheRoutesList!: RouteGlobal.RouteINF[]; // 缓存路由列表
   @App.Getter("cacheNameList") cacheNameList!: string[]; // 缓存路由名字列表
@@ -94,6 +93,7 @@ export default class Layout extends DeviceMixin {
   }
   @Watch("$route")
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
+    console.log(11);
     this.changeRouteDeal(to);
   }
   // animate
@@ -221,8 +221,6 @@ export default class Layout extends DeviceMixin {
     this.timer = setTimeout(() => {
       const checkedTab = this.checkedTab;
       this.checkedTab = { ...this.checkedTab };
-      console.log(this.checkedTab === checkedTab);
-      // this.num++;
     }, 300);
   }
   /** life cycle ***/
