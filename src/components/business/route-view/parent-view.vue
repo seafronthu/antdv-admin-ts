@@ -12,6 +12,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component
-export default class ComponentName extends Vue {}
+export default class ParentView extends Vue {}
 </script>
 <style lang="stylus" scoped></style>

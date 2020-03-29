@@ -23,13 +23,13 @@ import { RouteGlobal } from "@/types/route";
  * @returns {JSON} 返回合并的路由数据
  */
 function backFrontRoutesConcat(options: {
-  backstageRoutes: RouteGlobal.BackStageRoutesObjINF[];
+  backstageRoutes: RouteGlobal.BackAuthObjINF[];
   frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
-}): RouteGlobal.ArrageAuthObjINF[] {
+}): RouteGlobal.ArrageAuthRoutesINF[] {
   const { backstageRoutes, frontstageRoutes } = options;
-  let arr: RouteGlobal.ArrageAuthObjINF[] = [];
+  let arr: RouteGlobal.ArrageAuthRoutesINF[] = [];
   let objRoute: {
-    [key: number]: RouteGlobal.BackStageRoutesObjINF[];
+    [key: number]: RouteGlobal.BackAuthObjINF[];
   } = arrageArrToObj(backstageRoutes); // 以parentId为键名的JSON对象
   backstageRoutes.forEach((items, index) => {
     if (
@@ -44,7 +44,7 @@ function backFrontRoutesConcat(options: {
       }
       route = route || {};
       let meta = route.meta ? { ...route.meta, ...items } : { ...items };
-      let routeObj: RouteGlobal.ArrageAuthObjINF = {
+      let routeObj: RouteGlobal.ArrageAuthRoutesINF = {
         name: items.component,
         path: items.path || route.path,
         meta: {
@@ -107,11 +107,11 @@ function backFrontRoutesConcat(options: {
  * @param {{backstageRoutes:Array, frontstageRoutes: JSON}} {backstageRoutes 后台路由, frontstageRoutes 前台路由}
  * @returns {JSON} 返回合并的路由数据
  */
-function arrageBeforeAfterRoutes(options: {
-  backstageRoutes: RouteGlobal.BackStageRoutesObjINF[];
+function arrageAfterRoutesConcat(options: {
+  backstageRoutes: RouteGlobal.BackAuthObjINF[];
   frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
   parentId: number;
-}): RouteGlobal.ArrageAuthObjINF[] {
+}): RouteGlobal.ArrageAuthRoutesINF[] {
   const { backstageRoutes, frontstageRoutes, parentId = 0 } = options;
   let routeConcatArr = backFrontRoutesConcat({
     backstageRoutes,
@@ -143,7 +143,7 @@ function arrageBeforeAfterRoutes(options: {
         };
         matcheds.unshift(matchedsObj);
         copyTempArr.splice(i, 1);
-        i = 0;
+        i = 0; // 新添加的matchedsObj的parentId从0开始的id
         continue;
       }
       i++;
@@ -177,7 +177,7 @@ function arrageMenuTree({
   parentId = 0
 }: {
   frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
-  menuArrangement: { [key: number]: RouteGlobal.BackStageRoutesObjINF[] };
+  menuArrangement: { [key: number]: RouteGlobal.BackAuthObjINF[] };
   parentId: number;
 }): RouteGlobal.ArrageMenuObjINF[] {
   let arr = menuArrangement[parentId];
@@ -235,28 +235,28 @@ function arrageMenuTree({
  * @returns {JSON} 返回合并的路由数据
  */
 function arrageRoutes(options: {
-  backstageRoutes: RouteGlobal.BackStageRoutesObjINF[];
+  backstageRoutes: RouteGlobal.BackAuthObjINF[];
   frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
   parentId: number;
-}): RouteGlobal.ArrageRoutesObjINF[] {
-  let frontBackRoutes = arrageBeforeAfterRoutes(options);
+}): RouteGlobal.ArrageAuthRoutesINF[] {
+  let frontBackRoutes = arrageAfterRoutesConcat(options);
   return frontBackRoutes.filter(v => {
     // 过滤非page路由的
     return v.meta.type === "PAGE";
-  }) as RouteGlobal.ArrageRoutesObjINF[];
+  });
 }
 function arrageMenu({
   backstageRoutes,
   frontstageRoutes,
   parentId = 0
 }: {
-  backstageRoutes: RouteGlobal.BackStageRoutesObjINF[];
+  backstageRoutes: RouteGlobal.BackAuthObjINF[];
   frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
   parentId?: number;
 }): RouteGlobal.ArrageMenuObjINF[] {
   return arrageMenuTree({
     frontstageRoutes,
-    menuArrangement: <{ [key: number]: RouteGlobal.BackStageRoutesObjINF[] }>(
+    menuArrangement: <{ [key: number]: RouteGlobal.BackAuthObjINF[] }>(
       arrageArrToObj(backstageRoutes)
     ),
     parentId

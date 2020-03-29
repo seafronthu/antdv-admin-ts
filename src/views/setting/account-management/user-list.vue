@@ -48,7 +48,7 @@ interface SearchFormINF {
   date: string;
 }
 @Component
-export default class PersonalInformation extends Vue {
+export default class UserList extends Vue {
   loading: boolean = true; // 容器加载中
   searchForm: SearchFormINF = {
     name: "",

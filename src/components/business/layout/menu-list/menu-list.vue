@@ -39,7 +39,7 @@ import { arrageMenu } from "@l/manage";
 const App = namespace("app");
 interface ToRoutes {
   name: string;
-  meta: RouteGlobal.BackMetaINF;
+  meta: RouteGlobal.ArrageAuthRoutesMetaINF;
 }
 @Component({
   components: {
@@ -55,7 +55,7 @@ export default class MenuList extends Vue {
     [key: string]: RouteGlobal.FrontStageRoutesObjINF;
   };
   @App.State(state => state.authorizationList)
-  public authorizationList!: RouteGlobal.BackStageRoutesObjINF[];
+  public authorizationList!: RouteGlobal.BackAuthObjINF[];
   public newMenuList: RouteGlobal.ArrageMenuObjINF[] = [];
   public defaultActive: string | undefined = "";
   public defaultOpeneds: string[] = [];

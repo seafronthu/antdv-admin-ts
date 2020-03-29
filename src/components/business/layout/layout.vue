@@ -5,16 +5,13 @@
       <TopHeader />
     </a-layout-header>
     <a-layout>
-      <a-drawer
+      <Drawer
         v-if="isMobile"
-        wrapClassName="layout-drawer"
-        placement="left"
+        position="left"
         :closable="false"
-        @close="handleClose"
         :visible="collapse"
-      >
-        <Menu :collapse="collapse" theme="dark" />
-      </a-drawer>
+        v-model="collapse"
+      />
       <a-layout-sider
         v-else
         :collapsible="true"
@@ -53,6 +50,7 @@ import { delayExecute, urlJoin } from "@l/tools";
 import SecondHeader from "./second-header";
 import TopHeader from "./top-header";
 import TabNav from "./tab-nav";
+import Drawer from "./drawer";
 import { RouteGlobal } from "@/types/route";
 import { DeviceMixin } from "@l/mixin";
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
@@ -62,7 +60,8 @@ const App = namespace("app");
     Menu,
     SecondHeader,
     TopHeader,
-    TabNav
+    TabNav,
+    Drawer
   }
 })
 // @Component({ MenuList })
@@ -93,7 +92,6 @@ export default class Layout extends DeviceMixin {
   }
   @Watch("$route")
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
-    console.log(11);
     this.changeRouteDeal(to);
   }
   // animate
@@ -116,7 +114,7 @@ export default class Layout extends DeviceMixin {
   }
   // methods
   // 处理面包屑
-  dealBreadCrumb(meta: RouteGlobal.BackMetaINF) {
+  dealBreadCrumb(meta: RouteGlobal.ArrageAuthRoutesMetaINF) {
     this.breadcrumbList = meta && meta.breadcrumb ? meta.breadcrumb : [];
   }
   // 处理缓存路由

@@ -16,7 +16,7 @@
 //   /**
 //    * @description 授权列表
 //    */
-//   authorizationList: RouteGlobal.BackStageRoutesObjINF[];
+//   authorizationList: RouteGlobal.BackAuthObjINF[];
 // }
 // const state: UserStateINF = {
 //   userInfo: {
@@ -38,7 +38,7 @@
 //   },
 //   USER_GETAUTHORIZATIONLIST_MUTATE(
 //     state: UserStateINF,
-//     authorizationList: RouteGlobal.BackStageRoutesObjINF[]
+//     authorizationList: RouteGlobal.BackAuthObjINF[]
 //   ) {
 //     state.authorizationList = authorizationList;
 //   }

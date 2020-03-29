@@ -126,19 +126,22 @@ export default class ContainerFluid extends Vue {
     const df = $scopedSlots.default && $scopedSlots.default({});
     // const header = $scopedSlots.header;
     // const df = $scopedSlots.default;
+    //? 额外包一层是为了动画
     return (
-      <div class="container-fluid" ref="container" style={containerStyle}>
-        <a-spin {...{ props }}>
-          <template slot="indicator">
-            <antd-icon type="hhf-icon-loading-fan" style={iconStyle} spin />
-          </template>
-          <div class="container-fluid-main">
-            {header}
-            <div class="container-fluid-scroll" style={scrollStyle}>
-              {df}
+      <div>
+        <div class="container-fluid" ref="container" style={containerStyle}>
+          <a-spin {...{ props }}>
+            <template slot="indicator">
+              <antd-icon type="hhf-icon-loading-fan" style={iconStyle} spin />
+            </template>
+            <div class="container-fluid-main">
+              {header}
+              <div class="container-fluid-scroll" style={scrollStyle}>
+                {df}
+              </div>
             </div>
-          </div>
-        </a-spin>
+          </a-spin>
+        </div>
       </div>
     );
   }

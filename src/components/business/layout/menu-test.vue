@@ -56,7 +56,7 @@ import { CreateElement, VNode } from "vue/types/umd";
 const App = namespace("app");
 interface ToRoutes {
   name: string;
-  meta: RouteGlobal.BackMetaINF;
+  meta: RouteGlobal.ArrageAuthRoutesMetaINF;
 }
 @Component({
   components: {
@@ -97,7 +97,7 @@ export default class Menu extends Vue {
     [key: string]: RouteGlobal.FrontStageRoutesObjINF;
   };
   @App.State(state => state.authorizationList)
-  public authorizationList!: RouteGlobal.BackStageRoutesObjINF[];
+  public authorizationList!: RouteGlobal.BackAuthObjINF[];
   // methods
   onOpenChange(openKeys: string[]) {
     this.openKeys = openKeys;

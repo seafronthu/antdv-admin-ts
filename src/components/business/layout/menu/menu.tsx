@@ -7,7 +7,7 @@ import { CreateElement, VNode } from "vue/types/umd";
 const App = namespace("app");
 interface ToRoutes {
   name: string;
-  meta: RouteGlobal.BackMetaINF;
+  meta: RouteGlobal.ArrageAuthRoutesMetaINF;
 }
 @Component
 export default class Menu extends Vue {
@@ -44,7 +44,7 @@ export default class Menu extends Vue {
     [key: string]: RouteGlobal.FrontStageRoutesObjINF;
   };
   @App.State(state => state.authorizationList)
-  public authorizationList!: RouteGlobal.BackStageRoutesObjINF[];
+  public authorizationList!: RouteGlobal.BackAuthObjINF[];
   // watch
   @Watch("$route")
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
@@ -67,6 +67,11 @@ export default class Menu extends Vue {
     key: string;
     keyPath: string;
   }) {
+    this.$emit("trigger-click", {
+      item,
+      key,
+      keyPath
+    });
     this.selectedKeys = [key];
     this.$routerPush({ name: key });
   }
@@ -86,7 +91,7 @@ export default class Menu extends Vue {
     if (!to.meta.hideMenu) {
       // this.defaultSelectedKeys = [to.name];
       this.selectedKeys = [to.name];
-      const matched = to.meta.matched || [];
+      const matched: RouteGlobal.matchINF[] = to.meta.matched || [];
       const currOpenMenu = matched
         .filter(v => v.meta.type === "MENU" && !v.meta.hideMenu)
         .map(v => v.name);

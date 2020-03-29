@@ -200,16 +200,11 @@ export default class extends Vue {
       command: "CLOSE_All"
     });
   }
-  // @Watch("num")
-  // watchNum(currVal: number) {
-  //   console.log("num", currVal);
-  // }
   @Watch("value")
   watchCheckedTab(
     currVal: RouteGlobal.TabObjINF,
     oldVal: RouteGlobal.TabObjINF
   ) {
-    console.log(currVal, oldVal);
     this.chooseNavTag(currVal);
   }
   /**methods */

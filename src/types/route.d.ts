@@ -3,8 +3,20 @@ import { RouteConfig, RedirectOption, Route } from "vue-router";
 // import { VueConstructor } from "vue";
 export declare namespace RouteGlobal {
   type RouteType = "MENU" | "TAB" | "BUTTON" | "PAGE" | "MODE";
+  type KeyValuePair<T> = {
+    [key: string]: T;
+  };
+  interface TypeOjbINF {
+    [key: string]: BackAuthObjINF;
+  }
+  /**初始meta */
   interface InitialMetaINF {
-    title: string; // 标题
+    id?: number;
+    parentId?: number;
+    query?: KeyValuePair<string | (string | null)[]>;
+    params?: KeyValuePair<string | (string | null)[]>;
+    matched?: matchINF[]; // 当前父子级match路径
+    title?: string; // 标题
     icon?: string; // 图标
     href?: string; // 跳转到其它网站
     description?: string; // 描述
@@ -37,67 +49,48 @@ export declare namespace RouteGlobal {
      * @description 默认初次加载不展示tab标签
      */
     showInitialTab?: boolean;
+    /**
+     * @description 默认不展示nav
+     */
+    showNav?: boolean;
+    /**
+     * @description 关闭回调方法
+     */
+    beforeClosedCallback?: () => void;
+    breadcrumb?: BreadcrumbINF[]; // 面包屑
+    TAB?: TypeOjbINF;
+    BUTTON?: TypeOjbINF;
+    MODE?: TypeOjbINF;
   }
-  // 后台配置
+  /**后台配置 */
   interface BackAuthObjINF extends InitialMetaINF {
     id: number; // 当前路由id
+    title: string;
     // genre: string;
     type: RouteType;
     path: string; // 当前路径（不用加上级路径，如/a/b: 实际为填b即可，上级会根据parentId动态匹配）
     component: string; // 组件的名字（用来索引页面名字，唯一且永远不能更改，整个项目跳转都会使用它）
     parentId: number; // 父级路由id
   }
+  // 路由meta
+  interface RoutesMetaINF extends InitialMetaINF {}
   // 父子级路由
   interface matchINF {
     path: string;
     name: string;
     redirect?: RedirectOption;
-    meta: MetaINF;
+    meta: ArrageAuthRoutesMetaINF;
   }
-  // meta
-  interface MetaINF extends InitialMetaINF {
-    id?: number;
-    parentId?: number;
-    query?: KeyValuePair<string | (string | null)[]>;
-    params?: KeyValuePair<string | (string | null)[]>;
-    matched?: matchINF[]; // 当前父子级match路径
-    /**
-     * @description 关闭回调方法
-     */
-    beforeClosedCallback?: () => void;
-    breadcrumb?: BreadcrumbINF[]; // 面包屑
-    TAB?: TypeOjbINF;
-    BUTTON?: TypeOjbINF;
-    MODE?: TypeOjbINF;
+  // 前后台路由整理后的路由meta
+  interface ArrageAuthRoutesMetaINF extends BackAuthObjINF {
+    id: number; // 当前路由id
+    title: string;
+    // genre: string;
+    type: RouteType;
+    path: string; // 当前路径（不用加上级路径，如/a/b: 实际为填b即可，上级会根据parentId动态匹配）
+    component: string; // 组件的名字（用来索引页面名字，唯一且永远不能更改，整个项目跳转都会使用它）
+    parentId: number; // 父级路由id
   }
-  interface BackMetaINF extends BackAuthObjINF {
-    query?: KeyValuePair<string | (string | null)[]>;
-    params?: KeyValuePair<string | (string | null)[]>;
-    matched?: matchINF[]; // 当前父子级match路径
-    /**
-     * @description 关闭回调方法
-     */
-    beforeClosedCallback?: () => void;
-    breadcrumb?: BreadcrumbINF[]; // 面包屑
-    TAB?: TypeOjbINF;
-    BUTTON?: TypeOjbINF;
-    MODE?: TypeOjbINF;
-  }
-  // 面包屑
-  interface BreadcrumbINF {
-    name: string; // 用来判断是否可以跳转
-    type: "MENU" | "PAGE";
-    path: string;
-    icon?: string;
-    id?: number;
-    parentId?: number;
-    title?: string;
-  }
-  interface TypeOjbINF {
-    [key: string]: BackStageRoutesObjINF;
-  }
-  // 后台路由
-  interface BackStageRoutesObjINF extends BackAuthObjINF {}
   // 前台路由
   interface FrontStageRoutesObjINF {
     path: string;
@@ -105,34 +98,22 @@ export declare namespace RouteGlobal {
     redirect?: string;
     alias?: string;
     component: () => Promise<any>; //Promise<typeof import("*.vue")>;
-    meta?: MetaINF;
+    meta?: InitialMetaINF;
     children?: FrontStageRoutesObjINF[];
   }
-  // 整理后的权限
-  interface ArrageAuthObjINF extends FrontStageRoutesObjINF {
+  interface ArrageAuthRoutesINF extends FrontStageRoutesObjINF {
+    meta: ArrageAuthRoutesMetaINF;
+  }
+  // 面包屑
+  interface BreadcrumbINF {
+    name: string; // 用来判断是否可以跳转
+    type: "MENU" | "PAGE";
     path: string;
-    name: string;
-    meta: BackMetaINF;
+    icon?: string;
+    id: number;
+    parentId: number;
+    title: string;
   }
-  interface ArrageRoutesMetaINF extends BackMetaINF {
-    matched: matchINF[];
-  }
-  interface ArrageRoutesObjINF extends ArrageAuthObjINF {
-    component: () => Promise<any>;
-    meta: ArrageRoutesMetaINF;
-  }
-  interface ParentChildrenINF {
-    [key: string]:
-      | string
-      | number
-      | undefined
-      | ParentChildrenINF
-      | string[]
-      | ParentChildrenINF[];
-  }
-  type KeyValuePair<T> = {
-    [key: string]: T;
-  };
   // 整理后的菜单
   interface ArrageMenuObjINF {
     name: string;

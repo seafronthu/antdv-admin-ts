@@ -26,7 +26,7 @@ export default class App extends VuexModule {
   /**
    * @description 授权列表
    */
-  public authorizationList: RouteGlobal.BackStageRoutesObjINF[] = [];
+  public authorizationList: RouteGlobal.BackAuthObjINF[] = [];
   /**
    * @description 前台路由
    */
@@ -34,13 +34,21 @@ export default class App extends VuexModule {
     [key: string]: RouteGlobal.FrontStageRoutesObjINF;
   } = {};
   /**
-   * @description 路由列表
+   * @description 权限路由整理后的列表
+   */
+  public authRoutesList: RouteGlobal.ArrageAuthRoutesINF[] = [];
+  /**
+   * @description 整理后的所有路由列表
    */
   public routesList: RouteGlobal.FrontStageRoutesObjINF[] = [];
   /**
    * @description 菜单列表
    */
   public menuList: RouteGlobal.ArrageMenuObjINF[] = [];
+  /**
+   * @description 错误日志列表
+   */
+  public errorLogList: RouteGlobal.ArrageMenuObjINF[] = [];
   /**
    * @description 缓存名字
    */
@@ -53,20 +61,18 @@ export default class App extends VuexModule {
     frontstageRoutes,
     initialRoutes
   }: {
-    backstageRoutes: RouteGlobal.BackStageRoutesObjINF[];
+    backstageRoutes: RouteGlobal.BackAuthObjINF[];
     frontstageRoutes: { [key: string]: RouteGlobal.FrontStageRoutesObjINF };
     initialRoutes: RouteGlobal.FrontStageRoutesObjINF[];
   }) {
     this.authorizationList = backstageRoutes;
     this.frontRoutesList = frontstageRoutes;
-    this.routesList = [
-      ...initialRoutes,
-      ...arrageRoutes({
-        backstageRoutes: this.authorizationList,
-        frontstageRoutes: frontstageRoutes,
-        parentId: 0
-      })
-    ];
+    this.authRoutesList = arrageRoutes({
+      backstageRoutes: this.authorizationList,
+      frontstageRoutes: frontstageRoutes,
+      parentId: 0
+    });
+    this.routesList = [...initialRoutes, ...this.authRoutesList];
     this.menuList = arrageMenu({
       backstageRoutes: this.authorizationList,
       frontstageRoutes: frontstageRoutes,
@@ -116,16 +122,15 @@ export default class App extends VuexModule {
   }) {
     const res = await getRoutesApi(); // Cannot read property 'getters' of undefined  What?
     if (res.code === 1000) {
-      console.log(res);
-      const list = res.data.list as RouteGlobal.BackStageRoutesObjINF[];
+      const list = res.data.list as RouteGlobal.BackAuthObjINF[];
       this.APP_SETAUTHORIZATIONLIST_MUTATE({
         backstageRoutes: list,
         frontstageRoutes,
         initialRoutes
       });
       let tabList: RouteGlobal.TabObjINF[] = [];
-      for (let i = 0; i < this.routesList.length; ++i) {
-        let items = this.routesList[i];
+      for (let i = 0; i < this.authRoutesList.length; ++i) {
+        let items = this.authRoutesList[i];
         if (items.meta && items.meta.showInitialTab) {
           let {
             name,

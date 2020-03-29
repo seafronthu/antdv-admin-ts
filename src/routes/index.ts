@@ -56,7 +56,7 @@ router.beforeEach((to: Route, from: Route, next) => {
     }
     first = false;
     // 没有路由就去请求后台
-    if (appModule.routesList.length === 0) {
+    if (appModule.authRoutesList.length === 0) {
       getRouteAndAddRoute().then(res => {
         const redirect = from.query.redirect
           ? decodeURIComponent(from.query.redirect as string)

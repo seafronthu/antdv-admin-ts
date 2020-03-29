@@ -1,3 +1,5 @@
+$hover-action(t = 0.3s)
+  transition "all %s" % t
 // 布局
 .flex-row-start
   display-flex row flex-start flex-start
@@ -102,12 +104,18 @@
   padding 0 5px
 .padding-0-10
   padding 0 10px
+.padding-0-15
+  padding 0 15px
 .padding-0-20
   padding 0 20px
 .padding-5-0
   padding 5px 0
 .padding-10-0
   padding 10px 0
+.padding-left-5
+  padding-left 5px
+.padding-right-5
+  padding-right 5px
 .padding-right-10
   padding-right 10px
 .padding-left-10
@@ -171,27 +179,31 @@
 .weight-bolder
   font-weight bolder
 // 字体颜色
+.color-white
+  color white
 .color-brand
-  color $brand
+  color $brand-color
 .color-success
-  color $success
+  color $success-color
+.color-primary
+  color $primary-color
 .color-warning
-  color $warning
-.color-danger
-  color $danger
+  color $warning-color
+.color-error
+  color $error-color
 .color-info
-  color $info
+  color $info-color
 // 背景色
 .bgcolor-brand
-  background-color $brand
+  background-color $brand-color
 .bgcolor-success
-  background-color $success
+  background-color $success-color
 .bgcolor-warning
-  background-color $warning
-.bgcolor-danger
-  background-color $danger
+  background-color $warning-color
+.bgcolor-error
+  background-color $error-color
 .bgcolor-info
-  background-color $info
+  background-color $info-color
 .bgcolor-white
   background-color white
 // 标签类型
@@ -216,3 +228,18 @@
   top 0
 .left-0
   left 0
+// action
+.hover-color-primary:hover
+  color $primary-color !important
+.hover-bgcolor-white
+  $hover-action()
+.hover-bgcolor-white:hover
+  background-color rgba(255, 255, 255, 0.05)
+.hover-bgcolor-black
+  $hover-action()
+.hover-bgcolor-black:hover
+  background-color rgba(0, 0, 0, 0.05)
+.hover-bgcolor-base:hover
+  $hover-action()
+.hover-bgcolor-base:hover
+  background-color $hover-bgcolor

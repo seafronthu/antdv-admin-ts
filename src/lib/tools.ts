@@ -331,11 +331,34 @@ function formatNumber(num: number, format?: string): string {
 //   }
 //   return "";
 // }
+/**
+ * 判断是否为空对象
+ * @param obj 判断当前对象
+ */
+function isEmpty(obj: any): boolean {
+  if (obj === null) {
+    return true;
+  }
+  if (obj === void 0) {
+    return true;
+  }
+  if (obj === "") {
+    return true;
+  }
+  if (Array.isArray(obj)) {
+    return obj.length === 0;
+  }
+  if (typeof obj === "object") {
+    return Object.keys(obj).length === 0;
+  }
+  return false;
+}
 export {
   getParentsOffsetTop,
   errorCaptured,
   delayExecute,
   getRandomColor,
   urlJoin,
-  formatNumber
+  formatNumber,
+  isEmpty
 };
