@@ -81,6 +81,8 @@ export default class Layout extends DeviceMixin {
   ) => void;
   @ProvideReactive("breadcrumbList")
   breadcrumbList: RouteGlobal.BreadcrumbINF[] = [];
+  @ProvideReactive("deviceInfo")
+  deviceInfo: { isMobile: boolean } | {} = {};
   get asideWidth() {
     return this.collapse ? "65px" : "256px";
   }

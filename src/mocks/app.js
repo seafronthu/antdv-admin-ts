@@ -49,6 +49,16 @@ const list = [
     path: "user-list",
     icon: "",
     title: "用户列表"
+  },
+  {
+    parentId: 0,
+    id: 6,
+    description: "@cparagraph(1, 2)",
+    type: "PAGE",
+    component: "ErrorLog",
+    path: "error-log",
+    icon: "",
+    title: "错误日志"
   }
 ];
 export function getRoute() {

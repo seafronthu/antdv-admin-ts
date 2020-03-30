@@ -3,14 +3,27 @@ import {
   VuexModule,
   Mutation,
   Action,
+  getModule,
   MutationAction
 } from "vuex-module-decorators";
 import { getRoutesApi } from "@/api/app";
 import { arrageRoutes, arrageMenu } from "@l/manage";
 import { RouteGlobal } from "@/types/route";
-
+interface ErrorInfoINF {
+  type: string;
+  code: number;
+  msg: string;
+  url: string;
+}
+export interface ErrorRecordINF extends ErrorInfoINF {
+  userId: number;
+  headimg: string;
+  userName: string;
+  time: number;
+}
 @Module({ name: "app", namespaced: true })
 export default class App extends VuexModule {
+  store: any;
   /**
    * @description 当前设备大小
    */
@@ -46,9 +59,13 @@ export default class App extends VuexModule {
    */
   public menuList: RouteGlobal.ArrageMenuObjINF[] = [];
   /**
+   * @description 错误状态
+   */
+  public errorStatus: boolean = false;
+  /**
    * @description 错误日志列表
    */
-  public errorLogList: RouteGlobal.ArrageMenuObjINF[] = [];
+  public errorLogList: ErrorRecordINF[] = [];
   /**
    * @description 缓存名字
    */
@@ -85,7 +102,6 @@ export default class App extends VuexModule {
    */
   @Mutation
   public APP_TOGGLEDEVICE_MUTATE(device: string) {
-    // console.log(this.state);
     this.device = device;
   }
   /**
@@ -94,7 +110,6 @@ export default class App extends VuexModule {
    */
   @Mutation
   public APP_SETCACHEROUTES_MUTATE(cacheRoutesList: RouteGlobal.RouteINF[]) {
-    // console.log(this.state);
     this.cacheRoutesList = cacheRoutesList;
   }
   /**
@@ -103,8 +118,31 @@ export default class App extends VuexModule {
    */
   @Mutation
   public APP_SETTABLIST_MUTATE(tabList: RouteGlobal.TabObjINF[]) {
-    // console.log(this.state);
     this.tabList = tabList;
+  }
+  /**
+   * 设置当前错误状态
+   * @param status 状态
+   */
+  @Mutation
+  public APP_SETERRORSTATUS_MUTATE(status: boolean) {
+    this.errorStatus = status;
+  }
+  /**
+   * 设置当前错误状态
+   * @param status 状态
+   */
+  @Mutation
+  public APP_ADDERRORLOGINFO_MUTATE(
+    errorInfo: ErrorInfoINF,
+    userInfo: { headimg: string; userId: number; userName: string }
+  ) {
+    let data = {
+      ...errorInfo,
+      ...userInfo,
+      time: new Date().getTime()
+    };
+    this.errorLogList.push(data);
   }
   /**
    * 整理路由和菜单
@@ -164,6 +202,13 @@ export default class App extends VuexModule {
       return res;
     }
     return res;
+  }
+  @Action
+  APP_ADDERRORLOG_ACTION(info: ErrorInfoINF) {
+    if (~window.location.href.indexOf("error-log"))
+      this.APP_SETERRORSTATUS_MUTATE(true);
+    this.APP_ADDERRORLOGINFO_MUTATE(info, this.store.state.user.userInfo);
+    return false;
   }
 }
 // const myMod = getModule(App)

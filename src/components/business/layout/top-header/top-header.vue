@@ -4,7 +4,7 @@
     <Logo />
     <div class="flex-row-end-stretch">
       <FullScreen />
-      <ErrorStore />
+      <ErrorStore v-if="navList.includes('ErrorLog')" />
       <HeadMessage />
       <HeadUser />
     </div>
@@ -34,9 +34,11 @@ export default class TopHeader extends Vue {
   @App.State("authRoutesList")
   authRoutesList!: RouteGlobal.FrontStageRoutesObjINF[];
   get navList() {
-    return this.authRoutesList.filter(v => {
-      return v.meta && v.meta.showNav;
-    });
+    return this.authRoutesList
+      .filter(v => {
+        return v.meta && v.meta.showNav;
+      })
+      .map(v => v.name);
   }
   /**lifecle */
   mounted() {}

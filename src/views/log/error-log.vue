@@ -24,43 +24,17 @@
         </a-row>
       </a-form>
       <a-table
+        :locale="locale"
         :columns="columns"
         :dataSource="tableData"
-        @expand="handleExpanded"
+        @change="handleTableChange"
         class="role-list-table"
       >
-        <template #description="{description}">
-          <div class="text-ellipsis" style="width: 100px;">
-            {{ description }}
-          </div>
+        <template #headimgTitle>
+          <span><a-icon type="smile-o" /> 用户头像</span>
         </template>
-        <!-- 操作 -->
-        <template #operation="record">
-          <span>
-            <a @click="handleEdit(record)">编辑</a>
-            <a-divider type="vertical" />
-            <a-dropdown>
-              <a class="ant-dropdown-link"> 更多 <a-icon type="down" /> </a>
-              <a-menu slot="overlay">
-                <a-menu-item>
-                  <a href="javascript:;">详情</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;">禁用</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;">删除</a>
-                </a-menu-item>
-              </a-menu>
-            </a-dropdown>
-          </span>
-        </template>
-        <!-- 展开内容 -->
-        <template #expandedRowRender="record">
-          <p v-if="record.user">{{ record.user }}</p>
-          <div v-else class="flex-row flex-center">
-            <a-spin tip="Loading..."></a-spin>
-          </div>
+        <template #headimg="url">
+          <img :src="url" />
         </template>
       </a-table>
     </a-card>
@@ -69,6 +43,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { ErrorRecordINF } from "@s/modules/app";
 import { namespace } from "vuex-class";
 interface FieldsINF {
   id: string;
@@ -80,46 +55,38 @@ interface FieldsINF {
 const App = namespace("app");
 const columns = [
   { title: "序号", dataIndex: "number" },
-  { title: "类型", dataIndex: "type" },
+  { title: "用户ID", dataIndex: "userId" },
+  {
+    // title: "用户头像",
+    dataIndex: "headimg",
+    key: "headimg",
+    slots: { title: "headimgTitle" },
+    scopedSlots: { customRender: "headimg" }
+  },
+  { title: "用户名", dataIndex: "userName" },
+  {
+    title: "类型",
+    dataIndex: "type",
+    // filterMultiple: true,
+    filters: [
+      { text: "script", value: "script", checked: true },
+      { text: "ajax", value: "ajax" }
+    ],
+    onFilter: (value: string, record: { name: string[] }) => {
+      console.log(value, record);
+      return record.name.indexOf(value) === 0;
+    }
+  },
   { title: "编码", dataIndex: "code" },
-  { title: "信息", key: "info", scopedSlots: { customRender: "info" } },
+  { title: "信息", dataIndex: "msg" },
   { title: "URL", dataIndex: "url" },
   { title: "时间", dataIndex: "time" }
 ];
 
-const tableData = [
-  {
-    key: 1,
-    id: "admin",
-    name: "管理员",
-    creator: "Jack",
-    description:
-      "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.",
-    createTime: "2019-09-04 10:43"
-  },
-  {
-    key: 2,
-    id: "svip",
-    name: "超级会员",
-    creator: "Mark",
-    description:
-      "My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.",
-    createTime: "2019-09-04 10:43"
-  },
-  {
-    key: 3,
-    id: "vip",
-    name: "普通会员",
-    creator: "Linda",
-    description:
-      "My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.",
-    createTime: "2019-09-04 10:43"
-  }
-];
 @Component
 export default class ErrorLog extends Vue {
   columns = columns;
-  tableData = tableData;
+  locale = { filterConfirm: "确定", filterReset: "重置" };
   visible: boolean = false;
   fields: FieldsINF = {
     id: "",
@@ -128,20 +95,23 @@ export default class ErrorLog extends Vue {
     createRoleNum: "",
     createUserNum: ""
   };
-  @App.State("errorList") errorList!: string[];
+  @App.State("errorLogList") errorLogList!: ErrorRecordINF[];
+  get tableData() {
+    return this.errorLogList.map((v, i) => ({ ...v, key: i }));
+  }
   /** methods */
   handleAdd() {
     this.visible = true;
   }
-  handleExpanded(expanded: string, record: { user: string; id: string }) {
-    if (expanded && !record.user) {
-      let index = this.tableData.findIndex(v => v.id === record.id);
-      setTimeout(() => {
-        let item = this.tableData[index];
-        this.tableData.splice(index, 1, { ...item, name: "我是谁" });
-      }, 50000);
-    }
+  handleTableChange(
+    pagination: { current: number; pageSize: number },
+    filters: string[],
+    sorter: { key: string },
+    { currentDataSource }: { currentDataSource: any[] }
+  ) {
+    console.log(pagination, filters, sorter, currentDataSource);
   }
+  // handleExpanded(expanded: string, record: { user: string; id: string }) {}
   handleEdit(record: string) {
     console.log(record);
   }

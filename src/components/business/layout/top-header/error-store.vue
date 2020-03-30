@@ -10,6 +10,7 @@
   >
     <div
       class="error-store pointer flex-row-center padding-0-15 hover-bgcolor-white pointer"
+      @click="handleRouter"
     >
       <a-badge dot>
         <a-icon type="bug" class="color-white size-25" theme="filled" />
@@ -23,6 +24,10 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class ErrorStore extends Vue {
   show: boolean = false;
+  /** methods */
+  handleRouter() {
+    this.$routerPush({ name: "ErrorLog" });
+  }
 }
 </script>
 <style lang="stylus" scoped></style>

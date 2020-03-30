@@ -77,8 +77,9 @@ export default class User extends VuexModule {
    * @description 用户信息
    */
   public userInfo = {
-    name: "",
-    headimg: ""
+    userName: "",
+    headimg: "",
+    userId: ""
   };
   /**
    * @description 用户的token

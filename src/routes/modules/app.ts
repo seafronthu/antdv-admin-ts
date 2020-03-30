@@ -5,7 +5,9 @@ const ErrorLog = {
     import(/* webpackChunkName: "ErrorLog" */ "@v/log/error-log.vue"),
   meta: {
     // title: "错误日志",
-    showNav: true
+    hideMenu: true,
+    showNav: true,
+    notCache: true
   }
 };
 export default {
