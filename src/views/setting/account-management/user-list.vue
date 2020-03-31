@@ -34,6 +34,7 @@
       <a-table
         :dataSource="tableData"
         :columns="columns"
+        :pagination="{ pageSize: 20 }"
         style="width: 100%"
       ></a-table>
     </div>

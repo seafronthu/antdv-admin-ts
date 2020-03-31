@@ -12,7 +12,16 @@ export default class ContainerFluid extends Vue {
     type: Boolean,
     default: false
   })
+  padding!: boolean;
+  @Prop({
+    type: Boolean,
+    default: false
+  })
   full!: boolean;
+  @Prop({
+    type: String || Array
+  })
+  containerClass?: string | string[];
   @Prop({
     type: Boolean,
     default: false
@@ -86,7 +95,7 @@ export default class ContainerFluid extends Vue {
     }
   }
   get containerStyle() {
-    const { height, full } = this;
+    const { height, full, padding } = this;
     return full
       ? {
           height
@@ -101,9 +110,7 @@ export default class ContainerFluid extends Vue {
         }
       : null;
   }
-  created() {
-    console.log("come in");
-  }
+  created() {}
   render(h: CreateElement) {
     const {
       containerStyle,
@@ -113,7 +120,9 @@ export default class ContainerFluid extends Vue {
       message,
       spinClassName,
       $scopedSlots,
-      iconStyle
+      iconStyle,
+      padding,
+      containerClass
     } = this;
     const props = {
       size: spinSize,
@@ -124,12 +133,21 @@ export default class ContainerFluid extends Vue {
     };
     const header = $scopedSlots.header && $scopedSlots.header({});
     const df = $scopedSlots.default && $scopedSlots.default({});
+    let containerClasses: string[] = ["container-fluid"];
+    if (padding) {
+      containerClasses.push("padding-20");
+    }
+    if (Array.isArray(containerClass)) {
+      containerClasses = [...containerClasses, ...containerClass];
+    } else if (typeof containerClass === "string") {
+      containerClasses.push(containerClass);
+    }
     // const header = $scopedSlots.header;
     // const df = $scopedSlots.default;
     //? 额外包一层是为了动画
     return (
       <div>
-        <div class="container-fluid" ref="container" style={containerStyle}>
+        <div class={containerClasses} ref="container" style={containerStyle}>
           <a-spin {...{ props }}>
             <template slot="indicator">
               <antd-icon type="hhf-icon-loading-fan" style={iconStyle} spin />

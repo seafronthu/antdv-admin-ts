@@ -15,10 +15,10 @@
             <a-icon #prefix type="a-icon-user" />
           </a-input>
         </a-form-model>
-        <a-form-model prop="pass">
+        <a-form-model prop="password">
           <a-input
             :type="pswType"
-            v-model="ruleForm.pass"
+            v-model="ruleForm.password"
             autocomplete="off"
             placeholder="请输入密码"
           >
@@ -51,7 +51,7 @@ import { Component, Vue } from "vue-property-decorator";
 import getRouteAndAddRoute from "@l/routeMixin";
 interface RuleFormINF {
   account: string;
-  pass: string;
+  password: string;
 }
 function validateAccount(rule: any, value: string, callback: Function) {
   if (value === "") {
@@ -74,11 +74,11 @@ export default class Login extends Vue {
   };
   ruleForm: RuleFormINF = {
     account: "",
-    pass: ""
+    password: ""
   };
   rules = {
     account: [{ validator: validateAccount, trigger: "blur" }],
-    pass: [{ validator: validatePass, trigger: "blur" }]
+    password: [{ validator: validatePass, trigger: "blur" }]
   };
   encryptStatus: boolean = false; // true为加密 false 不加密
   loading: boolean = false; // 加载

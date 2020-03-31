@@ -27,7 +27,7 @@ const Layout: RouteGlobal.FrontStageRoutesObjINF = {
   path: "/home",
   name: "Default",
   alias: "/",
-  component: () => import(/* webpackChunkName: "Layout" */ "@b/layout")
+  component: () => import(/* webpackChunkName: "Layout" */ "@/layout")
 };
 const ReplacePage = {
   path: "/replace-page/:redirect*",

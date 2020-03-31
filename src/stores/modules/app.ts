@@ -9,11 +9,39 @@ import {
 import { getRoutesApi } from "@/api/app";
 import { arrageRoutes, arrageMenu } from "@l/manage";
 import { RouteGlobal } from "@/types/route";
+type Method =
+  | "get"
+  | "GET"
+  | "delete"
+  | "DELETE"
+  | "head"
+  | "HEAD"
+  | "options"
+  | "OPTIONS"
+  | "post"
+  | "POST"
+  | "put"
+  | "PUT"
+  | "patch"
+  | "PATCH"
+  | "link"
+  | "LINK"
+  | "unlink"
+  | "UNLINK";
+
 interface ErrorInfoINF {
   type: string;
-  code: number;
-  msg: string;
-  url: string;
+  name: string;
+  message: string;
+  href: string;
+  method?: Method;
+  status?: number;
+  statusText?: string;
+  baseURL?: string;
+  url?: string;
+  params?: string;
+  data?: any;
+  headers?: any;
 }
 export interface ErrorRecordINF extends ErrorInfoINF {
   userId: number;
@@ -205,7 +233,7 @@ export default class App extends VuexModule {
   }
   @Action
   APP_ADDERRORLOG_ACTION(info: ErrorInfoINF) {
-    if (~window.location.href.indexOf("error-log"))
+    if (!~window.location.href.indexOf("error-log"))
       this.APP_SETERRORSTATUS_MUTATE(true);
     this.APP_ADDERRORLOGINFO_MUTATE(info, this.store.state.user.userInfo);
     return false;

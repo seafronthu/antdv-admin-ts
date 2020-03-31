@@ -1,10 +1,11 @@
 import { userModule } from "@s/index";
-import axios, { ResponseType } from "axios";
+import axios, { ResponseType, AxiosRequestConfig, AxiosResponse } from "axios";
 import route from "@/routes";
 import config from "@/config";
 import { message } from "ant-design-vue";
 const { initialPageName } = config;
 import qs from "qs";
+import { appModule } from "@s/index";
 interface MapT {
   [key: string]: string;
 }
@@ -74,6 +75,38 @@ interface AxiosConfigObjINF {
   timeout?: number;
   withCredentials?: boolean;
 }
+interface ErrorInfoINF {
+  message: string;
+  name: string;
+  config: AxiosRequestConfig;
+  response: AxiosResponse;
+}
+// 需求： 1、请求插件 2、接口出错收集
+function addErrorLog(info: ErrorInfoINF) {
+  const {
+    message,
+    name,
+    config: { url, baseURL, headers, params, data, method },
+    response: { status, statusText }
+  } = info;
+  let errData = {
+    type: "ajax",
+    message,
+    name,
+    href: window.location.href,
+    status,
+    statusText,
+    url,
+    baseURL,
+    headers: JSON.stringify(headers),
+    params,
+    data,
+    method
+  };
+  // 判断是否是发送报错日志的接口 防止进入死循环
+  // if (!responseURL.includes(APP_API_NAME.SAVE_ERROR_LOG))
+  appModule.APP_ADDERRORLOG_ACTION(errData);
+}
 const LOGOUT_CODE = [4001, 4002, 4003, 4004, 4005, 4006, 4007];
 // 请求时处理
 axios.interceptors.request.use(
@@ -105,6 +138,7 @@ axios.interceptors.response.use(
     }
   },
   error => {
+    addErrorLog(error);
     return Promise.resolve({ data: { message: error, code: -400 } });
   }
 );

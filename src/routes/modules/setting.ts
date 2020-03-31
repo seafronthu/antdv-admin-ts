@@ -1,9 +1,9 @@
-const PersonalInformation = {
-  path: "personal-information",
-  name: "PersonalInformation",
+const PersonalCenter = {
+  path: "personal-center",
+  name: "PersonalCenter",
   component: () =>
     import(
-      /* webpackChunkName: "PersonalInformation" */ "@v/setting/account-management/personal-information.vue"
+      /* webpackChunkName: "PersonalCenter" */ "@v/setting/account-management/personal-center.vue"
     )
 };
 const UserList = {
@@ -15,6 +15,6 @@ const UserList = {
     )
 };
 export default {
-  PersonalInformation,
+  PersonalCenter,
   UserList
 };

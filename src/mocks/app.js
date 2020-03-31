@@ -35,10 +35,10 @@ const list = [
     id: 4,
     description: "@cparagraph(1, 2)",
     type: "PAGE",
-    component: "PersonalInformation",
-    path: "personal-information",
+    component: "PersonalCenter",
+    path: "personal-center",
     icon: "",
-    title: "个人信息"
+    title: "个人中心"
   },
   {
     parentId: 3,
@@ -61,7 +61,7 @@ const list = [
     title: "错误日志"
   }
 ];
-export function getRoute() {
+export function getRoute(options) {
   // let item = {
   //   // "parentId|0-6": 0,
   //   description: "@cparagraph(1, 2)",
@@ -139,14 +139,17 @@ export function getRoute() {
   // });
   // data.list.push();
   return [
-    /\/getRoute.*/,
+    /\/getRoute$/,
     "get",
-    {
-      code: 1000,
-      message: "success",
-      data: {
-        list
-      }
+    function(options) {
+      console.log(options);
+      return {
+        code: 1000,
+        message: "success",
+        data: {
+          list
+        }
+      };
     }
   ];
 }

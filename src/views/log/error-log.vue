@@ -1,49 +1,68 @@
 <!-- 错误日志 -->
 
 <template>
-  <ContainerFluid class="bg-color-f role-list">
-    <a-card :bordered="false">
-      <a-form layout="inline">
-        <a-row :gutter="24">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="角色ID">
-              <a-input placeholder="请输入" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="账号">
-              <a-input placeholder="请输入" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item>
-              <a-button type="primary">查询</a-button>
-              <a-button style="margin-left: 8px">重置</a-button>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-      <a-table
-        :locale="locale"
-        :columns="columns"
-        :dataSource="tableData"
-        @change="handleTableChange"
-        class="role-list-table"
-      >
-        <template #headimgTitle>
-          <span><a-icon type="smile-o" /> 用户头像</span>
-        </template>
-        <template #headimg="url">
-          <img :src="url" />
-        </template>
-      </a-table>
-    </a-card>
+  <ContainerFluid class="role-list" padding full>
+    <div class="overflow-hidden">
+      <a-row :gutter="24">
+        <a-col v-bind="col">
+          <a-button
+            type="danger"
+            @click="handleAddScript"
+            class="role-list-button"
+            ><a-icon type="plus" />添加script错误</a-button
+          >
+        </a-col>
+        <a-col v-bind="col">
+          <a-button
+            type="danger"
+            @click="handleAddAjax"
+            class="role-list-button"
+            ><a-icon type="plus" />添加ajax错误</a-button
+          >
+        </a-col>
+      </a-row>
+    </div>
+    <a-table
+      :locale="locale"
+      :columns="columns"
+      :dataSource="tableData"
+      @change="handleTableChange"
+      class="role-list-tabl
+        e"
+    >
+      <template #headimgTitle>
+        <span class="text-nowrap"><a-icon type="smile-o" /> Headimg</span>
+      </template>
+      <template #headimg="url">
+        <img :src="url" />
+      </template>
+      <template #type="text">
+        <a-tag color="#f50">{{ text }}</a-tag>
+      </template>
+      <template #expandedRowRender="record">
+        <a-table
+          v-if="record.type === 'ajax'"
+          :columns="innerColumns"
+          :pagination="false"
+          :dataSource="[record]"
+        >
+          <template #method="text">
+            <a-tag color="blue">{{ text }}</a-tag>
+          </template>
+          <template #status="text">
+            <a-tag color="red">{{ text }}</a-tag>
+          </template>
+        </a-table>
+      </template>
+    </a-table>
   </ContainerFluid>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ErrorRecordINF } from "@s/modules/app";
+import { getErrorData } from "@/api/app";
+import moment from "moment";
 import { namespace } from "vuex-class";
 interface FieldsINF {
   id: string;
@@ -54,38 +73,67 @@ interface FieldsINF {
 }
 const App = namespace("app");
 const columns = [
-  { title: "序号", dataIndex: "number" },
-  { title: "用户ID", dataIndex: "userId" },
+  { title: "Number", dataIndex: "number" },
+  { title: "Uid", dataIndex: "userId" },
   {
     // title: "用户头像",
     dataIndex: "headimg",
-    key: "headimg",
     slots: { title: "headimgTitle" },
     scopedSlots: { customRender: "headimg" }
   },
-  { title: "用户名", dataIndex: "userName" },
+  { title: "UserName", dataIndex: "userName" },
   {
-    title: "类型",
+    title: "Type",
     dataIndex: "type",
     // filterMultiple: true,
     filters: [
       { text: "script", value: "script", checked: true },
       { text: "ajax", value: "ajax" }
     ],
+    scopedSlots: { customRender: "type" },
     onFilter: (value: string, record: { name: string[] }) => {
       console.log(value, record);
       return record.name.indexOf(value) === 0;
     }
   },
-  { title: "编码", dataIndex: "code" },
-  { title: "信息", dataIndex: "msg" },
-  { title: "URL", dataIndex: "url" },
-  { title: "时间", dataIndex: "time" }
+  { title: "Href", dataIndex: "href" },
+  { title: "Name", dataIndex: "name" },
+  { title: "Message", dataIndex: "message" },
+  { title: "Time", dataIndex: "time" }
 ];
-
+const innerColumns = [
+  { title: "BaseURL", dataIndex: "baseURL" },
+  { title: "Url", dataIndex: "url" },
+  {
+    title: "Method",
+    dataIndex: "method",
+    scopedSlots: { customRender: "method" }
+  },
+  { title: "Headers", dataIndex: "headers" },
+  { title: "Data", dataIndex: "data" },
+  { title: "Params", dataIndex: "params" },
+  {
+    title: "Status",
+    dataIndex: "status",
+    scopedSlots: { customRender: "status" }
+  },
+  { title: "StatusText", dataIndex: "statusText" }
+];
 @Component
 export default class ErrorLog extends Vue {
+  col = {
+    md: 8,
+    sm: 10,
+    lg: 5,
+    xl: 4
+    // xs: { span: 23 },
+    // sm: { span: 8 },
+    // md: { span: 6 },
+    // lg: { span: 5 },
+    // xl: { span: 5 }
+  };
   columns = columns;
+  innerColumns = innerColumns;
   locale = { filterConfirm: "确定", filterReset: "重置" };
   visible: boolean = false;
   fields: FieldsINF = {
@@ -97,9 +145,22 @@ export default class ErrorLog extends Vue {
   };
   @App.State("errorLogList") errorLogList!: ErrorRecordINF[];
   get tableData() {
-    return this.errorLogList.map((v, i) => ({ ...v, key: i }));
+    return this.errorLogList.map((v, i) => ({
+      ...v,
+      key: i,
+      number: i + 1,
+      time: moment(v.time).format("YYYY-MM-DD kk:mm:ss")
+    }));
   }
   /** methods */
+  handleAddScript() {
+    console.log((this.visible as any).a.b);
+  }
+  handleAddAjax() {
+    getErrorData().then((res: any) => {
+      console.log(res);
+    });
+  }
   handleAdd() {
     this.visible = true;
   }
@@ -119,16 +180,8 @@ export default class ErrorLog extends Vue {
 </script>
 <style lang="stylus">
 .role-list
-  .ant-form-item
-    display flex
-    margin-bottom 12px
-    margin-right 0px
-    .ant-form-item-label
-      width auto
-      padding 0 8px 0 0
-      line-height 39.9999px
-    .ant-form-item-control-wrapper
-      flex 1 1
+  .role-list-button
+    margin-bottom 8px
   .role-list-table
     .ant-table-content
       overflow-y auto
