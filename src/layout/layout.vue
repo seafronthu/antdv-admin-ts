@@ -52,7 +52,6 @@ import TopHeader from "./top-header";
 import TabNav from "./tab-nav";
 import Drawer from "./drawer";
 import { RouteGlobal } from "@/types/route";
-import { DeviceMixin } from "@l/mixin";
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 const App = namespace("app");
 @Component({
@@ -65,7 +64,7 @@ const App = namespace("app");
   }
 })
 // @Component({ MenuList })
-export default class Layout extends DeviceMixin {
+export default class Layout extends Vue {
   private timer: number | undefined = void 0;
   collapse: boolean = false;
   headerHeight: string = "45px";
@@ -73,6 +72,7 @@ export default class Layout extends DeviceMixin {
   @App.State("tabList") tabList!: RouteGlobal.TabObjINF[]; // 标签页列表
   @App.State("cacheRoutesList") cacheRoutesList!: RouteGlobal.RouteINF[]; // 缓存路由列表
   @App.Getter("cacheNameList") cacheNameList!: string[]; // 缓存路由名字列表
+  @App.Getter("isMobile") isMobile!: boolean; // 缓存路由名字列表
   @App.Mutation("APP_SETTABLIST_MUTATE") APP_SETTABLIST_MUTATE!: (
     tabList: RouteGlobal.TabObjINF[]
   ) => void;

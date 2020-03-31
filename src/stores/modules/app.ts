@@ -6,6 +6,7 @@ import {
   getModule,
   MutationAction
 } from "vuex-module-decorators";
+import { DEVICE_TYPE } from "@l/device";
 import { getRoutesApi } from "@/api/app";
 import { arrageRoutes, arrageMenu } from "@l/manage";
 import { RouteGlobal } from "@/types/route";
@@ -99,6 +100,18 @@ export default class App extends VuexModule {
    */
   get cacheNameList(): string[] {
     return this.cacheRoutesList.map(v => v.name);
+  }
+  get isMobile() {
+    return this.device === DEVICE_TYPE.MOBILE;
+  }
+  get isTablet() {
+    return this.device === DEVICE_TYPE.TABLET;
+  }
+  get isLaptop() {
+    return this.device === DEVICE_TYPE.LAPTOP;
+  }
+  get isDesktop() {
+    return this.device === DEVICE_TYPE.DESKTOP;
   }
   @Mutation
   APP_SETAUTHORIZATIONLIST_MUTATE({
