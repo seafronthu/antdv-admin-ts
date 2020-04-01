@@ -15,7 +15,7 @@ export default class ContainerFluid extends Vue {
   padding!: boolean;
   @Prop({
     type: Boolean,
-    default: false
+    default: true
   })
   full!: boolean;
   @Prop({

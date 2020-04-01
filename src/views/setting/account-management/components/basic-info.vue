@@ -3,24 +3,7 @@
   <a-card :bordered="false" class="basic-info">
     <h4 class="size-20">基础信息</h4>
     <a-row type="flex" justify="space-between">
-      <a-col :order="isMobile ? 0 : 1" :xs="24" :sm="6">
-        <a-upload
-          name="headimg"
-          listType="picture-card"
-          class="avatar-uploader"
-          :showUploadList="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :beforeUpload="handleBeforeUpload"
-          @change="handleUploadChange"
-        >
-          <img v-if="headimg" :src="headimg" alt="avatar" />
-          <div v-else>
-            <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
-      </a-col>
-      <a-col :xs="24" :sm="18">
+      <a-col :xs="24" :sm="14" :ms="18">
         <a-form-model layout="vertical" :model="form">
           <a-form-model-item label="昵称">
             <a-input v-model="form.nickName" placeholder="请输入昵称" />
@@ -36,6 +19,23 @@
             <a-input v-model="form.email" placeholder="请输入电子邮件" />
           </a-form-model-item>
         </a-form-model>
+      </a-col>
+      <a-col :order="isXS ? 0 : 1" :sm="8" :xs="24" :ms="4">
+        <a-upload
+          name="headimg"
+          listType="picture-card"
+          class="avatar-uploader"
+          :showUploadList="false"
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          :beforeUpload="handleBeforeUpload"
+          @change="handleUploadChange"
+        >
+          <img v-if="headimg" :src="headimg" alt="avatar" />
+          <div v-else>
+            <a-icon :type="loading ? 'loading' : 'plus'" />
+            <div class="ant-upload-text">Upload</div>
+          </div>
+        </a-upload>
       </a-col>
     </a-row>
     <div>
@@ -78,7 +78,7 @@ export default class BasicInfo extends Vue {
     phone: undefined,
     email: ""
   };
-  @App.Getter("isMobile") isMobile!: boolean;
+  @App.Getter("isXS") isXS!: boolean;
   /** methods */
   handleBeforeUpload(file: File) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";

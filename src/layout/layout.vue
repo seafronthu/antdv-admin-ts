@@ -72,7 +72,8 @@ export default class Layout extends Vue {
   @App.State("tabList") tabList!: RouteGlobal.TabObjINF[]; // 标签页列表
   @App.State("cacheRoutesList") cacheRoutesList!: RouteGlobal.RouteINF[]; // 缓存路由列表
   @App.Getter("cacheNameList") cacheNameList!: string[]; // 缓存路由名字列表
-  @App.Getter("isMobile") isMobile!: boolean; // 缓存路由名字列表
+  @App.Getter("isXS") isXS!: boolean; // 设备大小
+  @App.Getter("isSM") isSM!: boolean; // 设备大小
   @App.Mutation("APP_SETTABLIST_MUTATE") APP_SETTABLIST_MUTATE!: (
     tabList: RouteGlobal.TabObjINF[]
   ) => void;
@@ -81,8 +82,11 @@ export default class Layout extends Vue {
   ) => void;
   @ProvideReactive("breadcrumbList")
   breadcrumbList: RouteGlobal.BreadcrumbINF[] = [];
-  @ProvideReactive("deviceInfo")
-  deviceInfo: { isMobile: boolean } | {} = {};
+  // @ProvideReactive("deviceInfo")
+  // deviceInfo: { isMobile: boolean } | {} = {};
+  get isMobile() {
+    return this.isXS || this.isSM;
+  }
   get asideWidth() {
     return this.collapse ? "65px" : "256px";
   }

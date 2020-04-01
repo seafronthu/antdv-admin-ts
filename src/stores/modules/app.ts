@@ -101,17 +101,24 @@ export default class App extends VuexModule {
   get cacheNameList(): string[] {
     return this.cacheRoutesList.map(v => v.name);
   }
-  get isMobile() {
-    return this.device === DEVICE_TYPE.MOBILE;
+  get isXS() {
+    console.log(this.device, this.device === DEVICE_TYPE.XS);
+    return this.device === DEVICE_TYPE.XS;
   }
-  get isTablet() {
-    return this.device === DEVICE_TYPE.TABLET;
+  get isSM() {
+    return this.device === DEVICE_TYPE.SM;
   }
-  get isLaptop() {
-    return this.device === DEVICE_TYPE.LAPTOP;
+  get isMD() {
+    return this.device === DEVICE_TYPE.MD;
   }
-  get isDesktop() {
-    return this.device === DEVICE_TYPE.DESKTOP;
+  get isLG() {
+    return this.device === DEVICE_TYPE.LG;
+  }
+  get isXL() {
+    return this.device === DEVICE_TYPE.XL;
+  }
+  get isXXL() {
+    return this.device === DEVICE_TYPE.XXL;
   }
   @Mutation
   APP_SETAUTHORIZATIONLIST_MUTATE({
