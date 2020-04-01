@@ -47,7 +47,7 @@ interface ErrorInfoINF {
 export interface ErrorRecordINF extends ErrorInfoINF {
   userId: number;
   headimg: string;
-  userName: string;
+  account: string;
   time: number;
 }
 @Module({ name: "app", namespaced: true })
@@ -176,7 +176,7 @@ export default class App extends VuexModule {
   @Mutation
   public APP_ADDERRORLOGINFO_MUTATE(
     errorInfo: ErrorInfoINF,
-    userInfo: { headimg: string; userId: number; userName: string }
+    userInfo: { headimg: string; userId: number; account: string }
   ) {
     let data = {
       ...errorInfo,

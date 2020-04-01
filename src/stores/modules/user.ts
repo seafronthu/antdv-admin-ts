@@ -71,22 +71,39 @@ import {
   Action
   // getModule
 } from "vuex-module-decorators";
+interface UserInfoINF {
+  account: string;
+  headimg: string;
+  sex: 0 | 1 | 2;
+  phone: string;
+  email: string;
+  userId: string;
+  nickName: string;
+  realName: string;
+  description: string;
+}
 @Module({ name: "user", namespaced: true })
 export default class User extends VuexModule {
   /**
    * @description 用户信息
    */
-  public userInfo = {
-    userName: "",
+  public userInfo: UserInfoINF = {
+    account: "",
     headimg: "",
-    userId: ""
+    sex: 0,
+    phone: "",
+    email: "",
+    userId: "",
+    nickName: "",
+    realName: "",
+    description: ""
   };
   /**
    * @description 用户的token
    */
   public token: string = "aa";
   @Mutation
-  USER_SETUSERINFO_MUTATE(userInfo: { name?: string; headimg?: string }) {
+  USER_SETUSERINFO_MUTATE(userInfo: UserInfoINF) {
     this.userInfo = {
       ...this.userInfo,
       ...userInfo
@@ -94,7 +111,7 @@ export default class User extends VuexModule {
   }
   @Action
   async USER_GETUSERINFO_ACTION() {
-    this.USER_SETUSERINFO_MUTATE({ name: "胡哥" });
+    // this.USER_SETUSERINFO_MUTATE({ name: "胡哥" });
   }
 }
 // const userModule = getModule(User);

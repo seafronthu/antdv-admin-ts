@@ -410,12 +410,12 @@ export default class extends Vue {
     &.right-btn
       right 32px
   .main
-    > .btn
-      padding 0 6px
+    // > .btn
+    //   padding 0 6px
     .wrap
       position absolute
-      left 28px
-      right 61px
+      left 32px
+      right 64px
       top 0
       bottom 0
       overflow hidden

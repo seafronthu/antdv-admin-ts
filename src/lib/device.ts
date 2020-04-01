@@ -1,6 +1,7 @@
 import enquireJs from "enquire.js";
 const DEVICE_TYPE = {
-  MOBILE: "screen and (max-width: 768px)", // 手机
+  MOBILE: "screen and (max-width: 576px)", // 手机
+  MOBILE: "screen and (min-width: 576px)", // 手机
   TABLET: "screen and (min-width: 768px) and (max-width: 992px)", // 平板
   LAPTOP: "screen and (min-width: 920px) and (max-width: 1200px)", // 笔记本
   DESKTOP: "screen and (min-width: 1200px)" // 台式

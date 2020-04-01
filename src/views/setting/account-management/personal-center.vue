@@ -1,37 +1,29 @@
 <!-- 个人信息 -->
 <template>
-  <ContainerFluid class="personal-information" padding full :loading="loading">
-    <div class="bgcolor-white flex-row-start height-full">
-      <div class="personal-information-left-mode height-full">
-        <a-menu mode="inline" class="height-full">
-          <a-menu-item key="1">
-            <span>基础信息</span>
-          </a-menu-item>
-          <a-menu-item key="2">
-            <span>安全设置</span>
-          </a-menu-item>
-        </a-menu>
-      </div>
-      <div class="flex-1">
-        <a-card :bordered="false">
-          <h4 class="size-20">基础信息</h4>
-          <div class="flex-row-between-start">
-            <a-form-model
-              layout="vertical"
-              :model="form"
-              v-bind="formItemLayout"
-            >
-              <a-form-model-item label="Field A">
-                <a-input
-                  v-model="form.fieldA"
-                  placeholder="input placeholder"
-                />
-              </a-form-model-item>
-            </a-form-model>
-            <div></div>
-          </div>
-        </a-card>
-      </div>
+  <ContainerFluid class="personal-information" padding :loading="loading">
+    <div class="personal-information-container bgcolor-white">
+      <a-row type="flex" justify="start">
+        <a-col v-bind="leftCol">
+          <a-menu mode="inline" class="height-full" v-model="selectedKeys">
+            <a-menu-item key="1">
+              <span>基础信息</span>
+            </a-menu-item>
+            <a-menu-item key="2">
+              <span>安全设置</span>
+            </a-menu-item>
+          </a-menu>
+        </a-col>
+        <a-col v-bind="rightCol">
+          <transition-group name="personal-information-fade">
+            <div key="1" v-show="selectedKeys.includes('1')">
+              <BasicInfo />
+            </div>
+            <div key="2" v-show="selectedKeys.includes('2')">
+              <SecuritySetting />
+            </div>
+          </transition-group>
+        </a-col>
+      </a-row>
     </div>
   </ContainerFluid>
 </template>
@@ -39,41 +31,37 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { personalInformationColumn } from "@/views/setting/tables";
-interface SearchFormINF {
-  name: string;
-  date: string;
-}
-@Component
+import BasicInfo from "./components/basic-info.vue";
+import SecuritySetting from "./components/security-setting.vue";
+@Component({
+  components: {
+    BasicInfo,
+    SecuritySetting
+  }
+})
 export default class PersonalCenter extends Vue {
   loading: boolean = true; // 容器加载中
-  searchForm: SearchFormINF = {
-    name: "",
-    date: ""
+  selectedKeys: string[] = ["1"];
+  leftCol = {
+    xs: 24,
+    sm: 6
   };
-  col = {
-    xs: { span: 23, offset: 1 },
-    sm: { span: 8, offset: 1 },
-    md: { span: 6, offset: 1 },
-    lg: { span: 5, offset: 1 },
-    xl: { span: 5, offset: 1 }
+  rightCol = {
+    xs: 24,
+    sm: 18
   };
-  dateCol = {
-    xs: { span: 23, offset: 1 },
-    sm: { span: 10, offset: 1 },
-    md: { span: 10, offset: 1 },
-    lg: { span: 8, offset: 1 },
-    xl: { span: 10, offset: 1 }
-  };
-  tableData = Array(60)
-    .fill({
-      date: "2016-05-02",
-      name: "王小虎",
-      address: "上海市普陀区金沙江路 1518 弄"
-    })
-    .map((v, i) => ({ ...v, key: i, index: i + 1 }));
-  columns = personalInformationColumn;
-  // methods
-  handleChangeDate() {}
+  /** methods */
+  // handleSelect({
+  //   item,
+  //   key,
+  //   selectedKeys
+  // }: {
+  //   item: Vue;
+  //   key: string;
+  //   selectedKeys: string[];
+  // }) {
+  //   console.log(item, key, selectedKeys);
+  // }
   mounted() {
     setTimeout(() => {
       this.loading = false;
@@ -83,8 +71,16 @@ export default class PersonalCenter extends Vue {
 </script>
 <style lang="stylus" scoped>
 .personal-information
+  .personal-information-container
+    padding 24px 0
   .personal-information-left-mode
-    padding-top 24px
     box-sizing border-box
     width 224px
+    align-self stretch
+  .personal-information-fade-enter-active
+    transition all .5s
+  .personal-information-fade-leave-active
+    display none
+  .personal-information-fade-enter
+    opacity 0
 </style>
