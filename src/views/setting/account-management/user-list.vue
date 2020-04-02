@@ -1,6 +1,6 @@
 <!-- 个人信息 -->
 <template>
-  <ContainerFluid class="bgcolor-white user-list" full :loading="loading">
+  <container-fluid class="bgcolor-white user-list" full :loading="loading">
     <template #header>
       <a-form ref="form" class="form" :model="searchForm" size="medium">
         <a-row>
@@ -38,7 +38,7 @@
         style="width: 100%"
       ></a-table>
     </div>
-  </ContainerFluid>
+  </container-fluid>
 </template>
 
 <script lang="ts">

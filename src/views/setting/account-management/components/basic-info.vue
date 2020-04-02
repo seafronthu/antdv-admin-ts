@@ -2,8 +2,8 @@
 <template>
   <a-card :bordered="false" class="basic-info">
     <h4 class="size-20">基础信息</h4>
-    <a-row type="flex" justify="space-between">
-      <a-col :xs="24" :sm="14" :ms="18">
+    <a-row type="flex" justify="start">
+      <a-col :xs="24" :sm="24" :md="24" :lg="10" :order="2">
         <a-form-model layout="vertical" :model="form">
           <a-form-model-item label="昵称">
             <a-input v-model="form.nickName" placeholder="请输入昵称" />
@@ -20,22 +20,32 @@
           </a-form-model-item>
         </a-form-model>
       </a-col>
-      <a-col :order="isXS ? 0 : 1" :sm="8" :xs="24" :ms="4">
-        <a-upload
-          name="headimg"
-          listType="picture-card"
-          class="avatar-uploader"
-          :showUploadList="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          :beforeUpload="handleBeforeUpload"
-          @change="handleUploadChange"
-        >
-          <img v-if="headimg" :src="headimg" alt="avatar" />
-          <div v-else>
-            <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
+      <a-col
+        :order="isMobile ? 1 : 2"
+        :sm="24"
+        :xs="24"
+        :md="24"
+        :lg="4"
+        :offset="2"
+        class="text-center"
+      >
+        <div class="inline-block">
+          <a-upload
+            name="headimg"
+            listType="picture-card"
+            class="avatar-uploader"
+            :showUploadList="false"
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            :beforeUpload="handleBeforeUpload"
+            @change="handleUploadChange"
+          >
+            <img v-if="headimg" :src="headimg" alt="avatar" />
+            <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+        </div>
       </a-col>
     </a-row>
     <div>
@@ -79,6 +89,12 @@ export default class BasicInfo extends Vue {
     email: ""
   };
   @App.Getter("isXS") isXS!: boolean;
+  @App.Getter("isSM") isSM!: boolean;
+  @App.Getter("isMD") isMD!: boolean;
+  get isMobile() {
+    console.log(this.isXS || this.isSM || this.isMD);
+    return this.isXS || this.isSM || this.isMD;
+  }
   /** methods */
   handleBeforeUpload(file: File) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";

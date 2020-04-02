@@ -5,7 +5,7 @@
     <div class="btn close-btn">
       <a-dropdown>
         <div class="close-link flex-row-center">
-          <IconFont icon="clear" width="1.5em" height="1.5em" />
+          <IconFont type="clear" width="1.5em" height="1.5em" />
         </div>
         <template #overlay>
           <a-menu @click="handleCloseAll">

@@ -1,6 +1,21 @@
-/*** 容器 ***/
+<!--  -->
+<template>
+  <div>
+    <div :class="containerClasses" ref="container" :style="containerStyle">
+      <a-spin v-bind="spinProps">
+        <div class="container-fluid-main">
+          <slot name="header"></slot>
+          <div class="container-fluid-scroll" :style="scrollStyle">
+            <slot></slot>
+          </div>
+        </div>
+      </a-spin>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { CreateElement } from "vue";
 import "./container-fluid.styl";
 @Component
 export default class ContainerFluid extends Vue {
@@ -124,40 +139,13 @@ export default class ContainerFluid extends Vue {
   get spinProps() {
     const { spinSize, loading, message, spinClassName } = this;
     return {
-      props: {
-        size: spinSize,
-        tip: message,
-        spinning: loading,
-        wrapperClassName: spinClassName
-      },
+      size: spinSize,
+      tip: message,
+      spinning: loading,
+      wrapperClassName: spinClassName,
       class: "container-fluid-spin"
     };
   }
-  created() {}
-  render(h: CreateElement) {
-    const {
-      containerStyle,
-      scrollStyle,
-      containerClasses,
-      spinProps,
-      $scopedSlots
-    } = this;
-    const header = $scopedSlots.header && $scopedSlots.header({});
-    const df = $scopedSlots.default && $scopedSlots.default({});
-    //? 额外包一层是为了动画
-    return (
-      <div>
-        <div class={containerClasses} ref="container" style={containerStyle}>
-          <a-spin {...spinProps}>
-            <div class="container-fluid-main">
-              {header}
-              <div class="container-fluid-scroll" style={scrollStyle}>
-                {df}
-              </div>
-            </div>
-          </a-spin>
-        </div>
-      </div>
-    );
-  }
 }
+</script>
+<style lang="stylus" scoped></style>

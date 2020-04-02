@@ -12,15 +12,15 @@ import "@a/css/animate.styl";
 // import "element-ui/lib/theme-chalk/index.css";
 import "@/mocks/index.js";
 import "@a/js/global.js";
+// import ContainerFluid from "@b/container-fluid/container-fluid.vue";
 import ContainerFluid from "@b/container-fluid";
-const AntdIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1307566_8qvs14elhfj.js" // 在 iconfont.cn 上生成
-});
-// Vue.use(Element);
 Vue.use(Antd);
 Vue.use(plugins);
-Vue.component("ContainerFluid", ContainerFluid);
-Vue.component("AntdIcon", AntdIcon);
+
+// const AntvIcon = Icon.createFromIconfontCN({
+//   scriptUrl: "//at.alicdn.com/t/font_1307566_i7vkvddg17f.js" // 在 iconfont.cn 上生成 函数式组件（clonecomponent不能使用）
+// });
+Vue.component("container-fluid", ContainerFluid);
 Vue.config.productionTip = false;
 new Vue({
   router,

@@ -1,2 +1,2 @@
-import IconFont from "./icon-font.vue";
+import IconFont from "./icon-font";
 export default IconFont;

@@ -12,7 +12,7 @@
       >
         <IconFont
           v-if="dot"
-          icon="dot"
+          type="dot"
           :style="{ color: color, paddingRight: '10px' }"
         ></IconFont>
         <slot></slot>

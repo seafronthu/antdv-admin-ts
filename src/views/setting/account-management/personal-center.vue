@@ -44,11 +44,13 @@ export default class PersonalCenter extends Vue {
   selectedKeys: string[] = ["1"];
   leftCol = {
     xs: 24,
-    sm: 6
+    sm: 6,
+    lg: 4
   };
   rightCol = {
     xs: 24,
-    sm: 18
+    sm: 18,
+    lg: 18
   };
   /** methods */
   // handleSelect({
