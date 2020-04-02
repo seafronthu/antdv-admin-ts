@@ -142,7 +142,6 @@ export function getRoute(options) {
     /\/getRoute$/,
     "get",
     function(options) {
-      console.log(options);
       return {
         code: 1000,
         message: "success",

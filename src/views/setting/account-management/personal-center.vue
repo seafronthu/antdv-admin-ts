@@ -1,6 +1,6 @@
 <!-- 个人信息 -->
 <template>
-  <ContainerFluid class="personal-information" padding :loading="loading">
+  <container-fluid class="personal-information" padding :loading="loading">
     <div class="personal-information-container bgcolor-white">
       <a-row type="flex" justify="start">
         <a-col v-bind="leftCol">
@@ -25,7 +25,7 @@
         </a-col>
       </a-row>
     </div>
-  </ContainerFluid>
+  </container-fluid>
 </template>
 
 <script lang="ts">

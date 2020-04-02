@@ -10,11 +10,11 @@
         @close="handleClose"
         @click="handleTagClick"
       >
-        <IconFont
+        <icon-font
           v-if="dot"
           type="dot"
-          :style="{ color: color, paddingRight: '10px' }"
-        ></IconFont>
+          :style="{ color: color, fontSize: '24px' }"
+        ></icon-font>
         <slot></slot>
         <!-- <a-icon type="close-circle" /> -->
       </a-tag>
@@ -29,18 +29,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import IconFont from "@h/icon-font";
 import { VNode } from "vue";
 export interface MenuOptionINF {
   item: VNode;
   key: string;
   keyPath: string[];
 }
-@Component({
-  components: {
-    IconFont
-  }
-})
+@Component
 export default class TagButton extends Vue {
   colorType = {
     success: "#52c41a",

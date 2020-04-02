@@ -5,7 +5,7 @@
     <div class="btn close-btn">
       <a-dropdown>
         <div class="close-link flex-row-center">
-          <IconFont type="clear" width="1.5em" height="1.5em" />
+          <icon-font type="clear" style="font-size: 24px;" />
         </div>
         <template #overlay>
           <a-menu @click="handleCloseAll">
@@ -81,7 +81,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import IconFont from "@h/icon-font";
 import TagButton from "@b/tag-button";
 import {
   closeCurrentTab,
@@ -114,7 +113,6 @@ const dropdownType: DropdownType[] = [
 ];
 @Component({
   components: {
-    IconFont,
     TagButton
   }
 })

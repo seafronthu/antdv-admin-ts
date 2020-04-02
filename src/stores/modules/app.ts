@@ -102,7 +102,6 @@ export default class App extends VuexModule {
     return this.cacheRoutesList.map(v => v.name);
   }
   get isXS() {
-    console.log(this.device, this.device === DEVICE_TYPE.XS);
     return this.device === DEVICE_TYPE.XS;
   }
   get isSM() {

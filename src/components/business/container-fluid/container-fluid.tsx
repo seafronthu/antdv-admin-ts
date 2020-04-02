@@ -137,6 +137,7 @@ export default class ContainerFluid extends Vue {
   render(h: CreateElement) {
     const {
       containerStyle,
+      iconStyle,
       scrollStyle,
       containerClasses,
       spinProps,
@@ -149,6 +150,9 @@ export default class ContainerFluid extends Vue {
       <div>
         <div class={containerClasses} ref="container" style={containerStyle}>
           <a-spin {...spinProps}>
+            <template slot="indicator">
+              <icon-font type="loading-fan" spin={true} style={iconStyle} />
+            </template>
             <div class="container-fluid-main">
               {header}
               <div class="container-fluid-scroll" style={scrollStyle}>

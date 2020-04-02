@@ -1,6 +1,7 @@
 /** 图标 */
 
 import { Component, Vue, Prop } from "vue-property-decorator";
+import "./icon-font.styl";
 @Component
 export default class IconFont extends Vue {
   @Prop({
@@ -16,44 +17,31 @@ export default class IconFont extends Vue {
   })
   rotate?: Number;
   @Prop({
-    type: String
-  })
-  color?: string;
-  @Prop({
-    type: String
-  })
-  size?: string;
-  @Prop({
     type: Boolean
   })
   spin?: boolean;
-  @Prop({
-    type: String
-  })
-  width?: string;
-  @Prop({
-    type: String
-  })
-  height?: string;
   get containerParams() {
-    const { width, height, size, color } = this;
+    const { type } = this;
     return {
-      style: {
-        width,
-        height,
-        fontSize: size,
-        color
+      attrs: {
+        "aria-label": `icon: ${type}`
       }
     };
   }
   get svgParams() {
-    const { spin, rotate } = this;
+    const { spin, rotate, type } = this;
     return {
       class: spin ? "hhf-icon-font-rotate" : "",
       style: {
         transform: `rotate(${rotate}deg)`
       },
       attrs: {
+        // viewBox: "0 0 1024 1024",
+        "data-icon": type,
+        width: "1em",
+        height: "1em",
+        fill: "currentColor",
+        focusable: "false",
         "aria-hidden": "true"
       }
     };
@@ -63,8 +51,7 @@ export default class IconFont extends Vue {
     return {
       attrs: {
         "xlink:href": `#hhf-icon-${type}`
-      },
-      class: spin ? "hhf-icon-font-rotate" : ""
+      }
     };
   }
   render() {

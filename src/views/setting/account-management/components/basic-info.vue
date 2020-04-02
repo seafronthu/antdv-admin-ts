@@ -92,7 +92,6 @@ export default class BasicInfo extends Vue {
   @App.Getter("isSM") isSM!: boolean;
   @App.Getter("isMD") isMD!: boolean;
   get isMobile() {
-    console.log(this.isXS || this.isSM || this.isMD);
     return this.isXS || this.isSM || this.isMD;
   }
   /** methods */
