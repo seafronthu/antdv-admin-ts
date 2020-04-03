@@ -59,6 +59,16 @@ const list = [
     path: "error-log",
     icon: "",
     title: "错误日志"
+  },
+  {
+    parentId: 0,
+    id: 7,
+    description: "@cparagraph(1, 2)",
+    type: "PAGE",
+    component: "MessageCenter",
+    path: "message-center",
+    icon: "",
+    title: "消息中心"
   }
 ];
 export function getRoute(options) {

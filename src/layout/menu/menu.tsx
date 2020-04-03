@@ -84,7 +84,7 @@ export default class Menu extends Vue {
     key: string;
     keyPath: string;
   }) {
-    console.log("selected", item, key, keyPath);
+    // console.log("selected", item, key, keyPath);
     // this.$routerPush({ name: key });
   }
   private changeMenu(to: ToRoutes) {

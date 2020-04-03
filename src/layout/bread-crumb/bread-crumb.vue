@@ -39,7 +39,7 @@ export default class BreadCrumb extends Vue {
   readonly breadcrumbList!: RouteGlobal.BreadcrumbINF[];
   // methods
   handleRouter(to: { name?: string; path?: string }) {
-    console.log(to);
+    // console.log(to);
     this.$routerPush(to);
   }
 }

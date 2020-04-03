@@ -10,13 +10,13 @@ import { RouteGlobal } from "@/types/route";
 function install(vm: VueConstructor) {
   vm.directive("modified", {
     bind(el, binding, vnode) {
-      console.log(el, binding.name);
+      // console.log(el, binding.name);
     },
     inserted(el, binding, vnode) {
-      console.log("inserted");
+      // console.log("inserted");
     },
     update(el, binding, vnode) {
-      console.log("update");
+      // console.log("update");
     },
     componentUpdated(el, binding, vnode) {
       const { value, arg, oldValue } = binding;

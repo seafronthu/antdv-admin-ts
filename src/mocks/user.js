@@ -23,7 +23,7 @@ export function login() {
     /\/login$/,
     "post",
     function(options) {
-      console.log(option);
+      // console.log(option);
       return {
         code: 1000,
         message: "success",

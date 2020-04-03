@@ -1,7 +1,7 @@
 <!-- 错误日志 -->
 
 <template>
-  <ContainerFluid class="role-list" padding full>
+  <container-fluid class="role-list" padding full>
     <div class="overflow-hidden">
       <a-row :gutter="24">
         <a-col v-bind="col">
@@ -55,7 +55,7 @@
         </a-table>
       </template>
     </a-table>
-  </ContainerFluid>
+  </container-fluid>
 </template>
 
 <script lang="ts">
@@ -92,7 +92,7 @@ const columns = [
     ],
     scopedSlots: { customRender: "type" },
     onFilter: (value: string, record: { name: string[] }) => {
-      console.log(value, record);
+      // console.log(value, record);
       return record.name.indexOf(value) === 0;
     }
   },
@@ -154,11 +154,11 @@ export default class ErrorLog extends Vue {
   }
   /** methods */
   handleAddScript() {
-    console.log((this.visible as any).a.b);
+    // console.log((this.visible as any).a.b);
   }
   handleAddAjax() {
     getErrorData().then((res: any) => {
-      console.log(res);
+      // console.log(res);
     });
   }
   handleAdd() {
@@ -170,11 +170,11 @@ export default class ErrorLog extends Vue {
     sorter: { key: string },
     { currentDataSource }: { currentDataSource: any[] }
   ) {
-    console.log(pagination, filters, sorter, currentDataSource);
+    // console.log(pagination, filters, sorter, currentDataSource);
   }
   // handleExpanded(expanded: string, record: { user: string; id: string }) {}
   handleEdit(record: string) {
-    console.log(record);
+    // console.log(record);
   }
 }
 </script>

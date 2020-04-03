@@ -193,6 +193,10 @@ function arrageMenuTree({
       // }
       // parentRoute.meta.detail = true
       let routeObj = frontstageRoutes[items.component];
+      //! 是页面且前台路由不存在则返回
+      if (items.type === "PAGE" && !routeObj) {
+        return;
+      }
       routeObj = routeObj || {};
       const meta = routeObj.meta
         ? { ...routeObj.meta, ...items }
