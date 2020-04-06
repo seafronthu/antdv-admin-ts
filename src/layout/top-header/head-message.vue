@@ -14,8 +14,13 @@
     </div>
     <template #content>
       <a-spin :spinning="loading">
-        <a-tabs>
-          <a-tab-pane tab="通知（11）" key="1">
+        <a-tabs class="head-message-tab">
+          <a-tab-pane class="head-message-tab-pane" :key="types[0]">
+            <template #tab>
+              <a-badge :count="1000" :overflowCount="99" :offset="[20, 0]">
+                <span class="head-message-notification">通知</span>
+              </a-badge>
+            </template>
             <a-list>
               <a-list-item v-for="(item, index) of list.notice" :key="index">
                 <a-list-item-meta>
@@ -37,11 +42,23 @@
               </a-list-item>
             </a-list>
             <div class="head-message-btn-container">
-              <button class="head-message-btn">清空 通知</button>
-              <button class="head-message-btn">查看更多</button>
+              <button class="head-message-btn hover-bgcolor-base">
+                清空 通知
+              </button>
+              <button
+                class="head-message-btn hover-bgcolor-base"
+                @click="handleWatchMore(types[0])"
+              >
+                查看更多
+              </button>
             </div>
           </a-tab-pane>
-          <a-tab-pane tab="消息（1）" key="2">
+          <a-tab-pane class="head-message-tab-pane" :key="types[1]">
+            <template #tab>
+              <a-badge :count="12" :overflowCount="99" :offset="[20, 0]">
+                <span class="head-message-notification">消息</span>
+              </a-badge>
+            </template>
             <a-list>
               <a-list-item v-for="(item, index) of list.message" :key="index">
                 <a-list-item-meta>
@@ -63,11 +80,23 @@
               </a-list-item>
             </a-list>
             <div class="head-message-btn-container">
-              <button class="head-message-btn">清空 消息</button>
-              <button class="head-message-btn">查看更多</button>
+              <button class="head-message-btn hover-bgcolor-base">
+                清空 消息
+              </button>
+              <button
+                class="head-message-btn hover-bgcolor-base"
+                @click="handleWatchMore(types[1])"
+              >
+                查看更多
+              </button>
             </div>
           </a-tab-pane>
-          <a-tab-pane tab="待办" key="3">
+          <a-tab-pane class="head-message-tab-pane" :key="types[2]">
+            <template #tab>
+              <a-badge :count="999" :overflowCount="99" :offset="[20, 0]">
+                <span class="head-message-notification">待办</span>
+              </a-badge>
+            </template>
             <a-list>
               <a-list-item v-for="(item, index) of list.deal" :key="index">
                 <a-list-item-meta>
@@ -89,8 +118,15 @@
               </a-list-item>
             </a-list>
             <div class="head-message-btn-container">
-              <button class="head-message-btn">清空 待办</button>
-              <button class="head-message-btn">查看更多</button>
+              <button class="head-message-btn hover-bgcolor-base">
+                清空 待办
+              </button>
+              <button
+                class="head-message-btn hover-bgcolor-base"
+                @click="handleWatchMore(types[2])"
+              >
+                查看更多
+              </button>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -150,14 +186,34 @@ export default class HeadMessage extends Vue {
   visible: boolean = false;
   loading: boolean = false;
   list = list;
+  types = [1, 2, 3];
   /** methods */
   handleChange(visible: boolean) {
     // console.log("visible:", visible);
+  }
+  handleWatchMore(type: string) {
+    this.visible = false;
+    this.$routerPush({
+      name: "MessageCenter",
+      refresh: true,
+      query: {
+        type
+      }
+    });
   }
 }
 </script>
 <style lang="stylus">
 .head-message
+  .head-message-tab
+    width 310px
+    // .ant-tabs-tab
+    //   .ant-badge-count
+    //     left 55%
+    //     right auto
+    //   padding 0
+    //   .head-message-notification
+    //     padding 12px 16px
   .ant-popover-inner-content
     padding 0
   .ant-tabs-bar
@@ -174,18 +230,15 @@ export default class HeadMessage extends Vue {
     line-height @height
     border-top 1px solid #f0f0f0
     border-radius 0 0 2px 2px
-    transition all .3s;
+    width 100%
     .head-message-btn
       display inline-block
       width 50%
       cursor pointer
-      transition all .3s
       user-select none
       background none
       border none
       outline none
-      &:active
-        background-color $hover-bgcolor
       &:last-of-type
         border-left 1px solid #f0f0f0
 </style>

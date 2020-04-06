@@ -2,7 +2,7 @@
 <template>
   <a-card :bordered="false" class="basic-info">
     <h4 class="size-20">基础信息</h4>
-    <a-row type="flex" justify="start">
+    <a-row type="flex" justify="start" :gutter="48">
       <a-col :xs="24" :sm="24" :md="24" :lg="10" :order="2">
         <a-form-model layout="vertical" :model="form">
           <a-form-model-item label="昵称">
@@ -21,12 +21,11 @@
         </a-form-model>
       </a-col>
       <a-col
-        :order="isMobile ? 1 : 2"
+        :order="lessThan992 ? 1 : 2"
         :sm="24"
         :xs="24"
         :md="24"
-        :lg="4"
-        :offset="2"
+        :lg="7"
         class="text-center"
       >
         <div class="inline-block">
@@ -88,12 +87,7 @@ export default class BasicInfo extends Vue {
     phone: undefined,
     email: ""
   };
-  @App.Getter("isXS") isXS!: boolean;
-  @App.Getter("isSM") isSM!: boolean;
-  @App.Getter("isMD") isMD!: boolean;
-  get isMobile() {
-    return this.isXS || this.isSM || this.isMD;
-  }
+  @App.Getter("lessThan992") lessThan992!: boolean;
   /** methods */
   handleBeforeUpload(file: File) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";

@@ -155,6 +155,7 @@ export default class ContainerFluid extends Vue {
             </template>
             <div class="container-fluid-main">
               {header}
+              {/*!! 这里需要注意，当设置纵向滚动的时候，子容器设置了margin左右边距设置了负值会出现横向滚动条 */}
               <div class="container-fluid-scroll" style={scrollStyle}>
                 {df}
               </div>

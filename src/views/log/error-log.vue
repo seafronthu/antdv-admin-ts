@@ -2,26 +2,29 @@
 
 <template>
   <container-fluid class="role-list" padding full>
-    <div class="overflow-hidden">
-      <a-row :gutter="24">
-        <a-col v-bind="col">
-          <a-button
-            type="danger"
-            @click="handleAddScript"
-            class="role-list-button"
-            ><a-icon type="plus" />添加script错误</a-button
-          >
-        </a-col>
-        <a-col v-bind="col">
-          <a-button
-            type="danger"
-            @click="handleAddAjax"
-            class="role-list-button"
-            ><a-icon type="plus" />添加ajax错误</a-button
-          >
-        </a-col>
-      </a-row>
-    </div>
+    <template #header>
+      <!-- <div class="overflow-hidden"> -->
+      <div>
+        <a-row :gutter="24">
+          <a-col v-bind="col">
+            <a-button
+              type="danger"
+              @click="handleAddScript"
+              class="role-list-button"
+              ><a-icon type="plus" />添加script错误</a-button
+            >
+          </a-col>
+          <a-col v-bind="col">
+            <a-button
+              type="danger"
+              @click="handleAddAjax"
+              class="role-list-button"
+              ><a-icon type="plus" />添加ajax错误</a-button
+            >
+          </a-col>
+        </a-row>
+      </div>
+    </template>
     <a-table
       :locale="locale"
       :columns="columns"
@@ -154,6 +157,7 @@ export default class ErrorLog extends Vue {
   }
   /** methods */
   handleAddScript() {
+    (this.visible as any).a.b;
     // console.log((this.visible as any).a.b);
   }
   handleAddAjax() {

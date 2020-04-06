@@ -4,7 +4,7 @@
     <div class="personal-information-container bgcolor-white">
       <a-row type="flex" justify="start">
         <a-col v-bind="leftCol">
-          <a-menu mode="inline" class="height-full" v-model="selectedKeys">
+          <a-menu :mode="mode" class="height-full" v-model="selectedKeys">
             <a-menu-item key="1">
               <span>基础信息</span>
             </a-menu-item>
@@ -33,6 +33,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { personalInformationColumn } from "@/views/setting/tables";
 import BasicInfo from "./components/basic-info.vue";
 import SecuritySetting from "./components/security-setting.vue";
+import { appModule } from "@s/index";
 @Component({
   components: {
     BasicInfo,
@@ -52,6 +53,9 @@ export default class PersonalCenter extends Vue {
     sm: 18,
     lg: 18
   };
+  get mode() {
+    return appModule.lessThan576 ? "horizontal" : "inline";
+  }
   /** methods */
   // handleSelect({
   //   item,

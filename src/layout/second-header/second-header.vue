@@ -17,7 +17,11 @@ import BreadCrumb from "../bread-crumb";
   }
 })
 export default class SecondHeader extends Vue {
-  @Model("trigger-collapse") collapse: boolean = false;
+  @Model("trigger-collapse", {
+    type: Boolean,
+    default: false
+  })
+  collapse?: boolean;
   get collapseType() {
     return this.collapse ? "menu-unfold" : "menu-fold";
   }

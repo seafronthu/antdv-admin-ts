@@ -1,10 +1,9 @@
-import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import SubMenu from "./sub-menu";
 import { RouteGlobal } from "@/types/route";
 import { arrageMenu } from "@l/manage";
 import { CreateElement, VNode } from "vue/types/umd";
-const App = namespace("app");
+import { appModule, userModule } from "@s/index";
 interface ToRoutes {
   name: string;
   meta: RouteGlobal.ArrageAuthRoutesMetaINF;
@@ -34,18 +33,25 @@ export default class Menu extends Vue {
   // data
   selectedKeys: string[] = [];
   openKeys: string[] = [];
+  oldOpenKeys: string[] = [];
   defaultSelectedKeys: string[] = [];
   defaultOpenKeys: string[] = [];
   // state
-  @App.State(state => state.menuList)
-  public menuList!: RouteGlobal.ArrageMenuObjINF[];
-  @App.State(state => state.frontRoutesList)
-  public frontRoutesList!: {
-    [key: string]: RouteGlobal.FrontStageRoutesObjINF;
-  };
-  @App.State(state => state.authorizationList)
-  public authorizationList!: RouteGlobal.BackAuthObjINF[];
+  get menuList() {
+    return appModule.menuList;
+  }
+  get frontRoutesList() {
+    return appModule.frontRoutesList;
+  }
+  get authorizationList() {
+    return appModule.authorizationList;
+  }
   // watch
+  // @Watch("")
+  @Watch("collapse")
+  watchCollapse(val: boolean) {
+    this.openKeys = val ? [] : this.oldOpenKeys;
+  }
   @Watch("$route")
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
     const { meta, name } = this.$route;
@@ -57,6 +63,7 @@ export default class Menu extends Vue {
   // methods
   onOpenChange(openKeys: string[]) {
     this.openKeys = openKeys;
+    this.oldOpenKeys = openKeys;
   }
   handleRouter({
     item,
@@ -92,10 +99,16 @@ export default class Menu extends Vue {
       // this.defaultSelectedKeys = [to.name];
       this.selectedKeys = [to.name];
       const matched: RouteGlobal.matchINF[] = to.meta.matched || [];
+      if (this.collapse) {
+        this.openKeys = [];
+        this.oldOpenKeys = [];
+        return;
+      }
       const currOpenMenu = matched
         .filter(v => v.meta.type === "MENU" && !v.meta.hideMenu)
         .map(v => v.name);
       this.openKeys = currOpenMenu;
+      this.oldOpenKeys = currOpenMenu;
       // this.defaultOpenKeys = currOpenMenu;
     }
   }
@@ -116,7 +129,7 @@ export default class Menu extends Vue {
       defaultSelectedKeys,
       selectedKeys,
       themeColor,
-      collapse,
+      // collapse,
       handleSelected,
       menuList
     } = this;

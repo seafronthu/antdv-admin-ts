@@ -1,6 +1,11 @@
 <!-- 个人信息 -->
 <template>
-  <container-fluid class="bgcolor-white user-list" full :loading="loading">
+  <container-fluid
+    class="bgcolor-white user-list"
+    padding
+    full
+    :loading="loading"
+  >
     <template #header>
       <a-form ref="form" class="form" :model="searchForm" size="medium">
         <a-row>
@@ -22,7 +27,7 @@
               <a-range-picker @change="handleChangeDate" />
             </a-form-item>
           </a-col>
-          <a-col v-bind="col">
+          <a-col v-bind="searchCol">
             <a-form-item>
               <a-button type="primary">搜索</a-button>
             </a-form-item>
@@ -67,13 +72,18 @@ export default class UserList extends Vue {
     sm: { span: 10, offset: 1 },
     md: { span: 10, offset: 1 },
     lg: { span: 8, offset: 1 },
-    xl: { span: 10, offset: 1 }
+    xl: { span: 6, offset: 1 },
+    xxl: { span: 5, offset: 1 }
+  };
+  searchCol = {
+    xs: { span: 23, offset: 1 },
+    sm: { span: 5, offset: 1 }
   };
   tableData = Array(60)
     .fill({
       date: "2016-05-02",
       name: "王小虎",
-      address: "上海市普陀区金沙江路 1518 弄"
+      address: "上海市普陀区金沙江路1518弄"
     })
     .map((v, i) => ({ ...v, key: i, index: i + 1 }));
   columns = personalInformationColumn;

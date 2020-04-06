@@ -6,7 +6,7 @@
     </a-layout-header>
     <a-layout>
       <Drawer
-        v-if="isMobile"
+        v-if="lessThan768"
         position="left"
         :closable="false"
         :visible="collapse"
@@ -54,6 +54,7 @@ import Drawer from "./drawer";
 import { RouteGlobal } from "@/types/route";
 import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 const App = namespace("app");
+import { appModule } from "@s/index";
 @Component({
   components: {
     Menu,
@@ -72,8 +73,12 @@ export default class Layout extends Vue {
   @App.State("tabList") tabList!: RouteGlobal.TabObjINF[]; // 标签页列表
   @App.State("cacheRoutesList") cacheRoutesList!: RouteGlobal.RouteINF[]; // 缓存路由列表
   @App.Getter("cacheNameList") cacheNameList!: string[]; // 缓存路由名字列表
-  @App.Getter("isXS") isXS!: boolean; // 设备大小
-  @App.Getter("isSM") isSM!: boolean; // 设备大小
+  get lessThan768() {
+    return appModule.lessThan768;
+  }
+  get isTablet() {
+    return appModule.lessThan1200 && !appModule.lessThan768;
+  }
   @App.Mutation("APP_SETTABLIST_MUTATE") APP_SETTABLIST_MUTATE!: (
     tabList: RouteGlobal.TabObjINF[]
   ) => void;
@@ -84,9 +89,6 @@ export default class Layout extends Vue {
   breadcrumbList: RouteGlobal.BreadcrumbINF[] = [];
   // @ProvideReactive("deviceInfo")
   // deviceInfo: { isMobile: boolean } | {} = {};
-  get isMobile() {
-    return this.isXS || this.isSM;
-  }
   get asideWidth() {
     return this.collapse ? "65px" : "256px";
   }
@@ -95,6 +97,10 @@ export default class Layout extends Vue {
     return {
       height: `calc(100vh - ${headerHeight})`
     };
+  }
+  @Watch("isTablet")
+  watchTablet(val: boolean) {
+    this.changeDeviceScreen(val);
   }
   @Watch("$route")
   watchRoute(to: RouteGlobal.RouteINF, from: RouteGlobal.RouteINF) {
@@ -209,6 +215,9 @@ export default class Layout extends Vue {
     //   v.notSingleTab ? v : v.name === to.name
     // );
   }
+  changeDeviceScreen(val: boolean) {
+    this.collapse = val && !this.lessThan768;
+  }
   changeRouteDeal(to: RouteGlobal.RouteINF) {
     const { meta, name } = to;
     this.dealBreadCrumb(meta);
@@ -230,6 +239,7 @@ export default class Layout extends Vue {
   /** life cycle ***/
 
   created() {
+    this.changeDeviceScreen(this.isTablet);
     this.changeRouteDeal(this.$route as RouteGlobal.RouteINF);
   }
   mounted() {

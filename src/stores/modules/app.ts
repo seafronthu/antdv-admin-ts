@@ -6,7 +6,7 @@ import {
   getModule,
   MutationAction
 } from "vuex-module-decorators";
-import { DEVICE_TYPE } from "@l/device";
+import { DeviceDirection, DeviceType, DeviceNumber } from "@l/device";
 import { getRoutesApi } from "@/api/app";
 import { arrageRoutes, arrageMenu } from "@l/manage";
 import { RouteGlobal } from "@/types/route";
@@ -56,7 +56,13 @@ export default class App extends VuexModule {
   /**
    * @description 当前设备大小
    */
-  public device = "";
+  public device: number = 0;
+  public XS = "";
+  public SM = "";
+  public MD = "";
+  public LG = "";
+  public XL = "";
+  public XXL = "";
   /**
    * @description 标签列表
    */
@@ -101,23 +107,30 @@ export default class App extends VuexModule {
   get cacheNameList(): string[] {
     return this.cacheRoutesList.map(v => v.name);
   }
-  get isXS() {
-    return this.device === DEVICE_TYPE.XS;
+
+  get lessThan576() {
+    // return this.XS === DeviceDirection.XS;
+    return this.device <= DeviceNumber[DeviceDirection.XS];
   }
-  get isSM() {
-    return this.device === DEVICE_TYPE.SM;
+  get lessThan768() {
+    // return this.SM === DeviceDirection.SM;
+    return this.device <= DeviceNumber[DeviceDirection.SM];
   }
-  get isMD() {
-    return this.device === DEVICE_TYPE.MD;
+  get lessThan992() {
+    // return this.MD === DeviceDirection.MD;
+    return this.device <= DeviceNumber[DeviceDirection.MD];
   }
-  get isLG() {
-    return this.device === DEVICE_TYPE.LG;
+  get lessThan1200() {
+    // return this.LG === DeviceDirection.LG;
+    return this.device <= DeviceNumber[DeviceDirection.LG];
   }
-  get isXL() {
-    return this.device === DEVICE_TYPE.XL;
+  get lessThan1600() {
+    // return this.XL === DeviceDirection.XL;
+    return this.device <= DeviceNumber[DeviceDirection.XL];
   }
-  get isXXL() {
-    return this.device === DEVICE_TYPE.XXL;
+  get greaterThan1600() {
+    // return this.XXL === DeviceDirection.XXL;
+    return this.device >= DeviceNumber[DeviceDirection.XXL];
   }
   @Mutation
   APP_SETAUTHORIZATIONLIST_MUTATE({
@@ -148,8 +161,17 @@ export default class App extends VuexModule {
    * @param device 设备大小
    */
   @Mutation
-  public APP_TOGGLEDEVICE_MUTATE(device: string) {
-    this.device = device;
+  public APP_TOGGLEDEVICE_MUTATE({
+    deviceType,
+    deviceValue,
+    deviceNumber
+  }: {
+    deviceType: DeviceType;
+    deviceValue: DeviceDirection;
+    deviceNumber: DeviceNumber;
+  }) {
+    this[deviceType] = deviceValue;
+    this.device = deviceNumber;
   }
   /**
    * 设置缓存路由

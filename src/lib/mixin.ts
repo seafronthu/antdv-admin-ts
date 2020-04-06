@@ -5,8 +5,12 @@ import { appModule } from "@s/index";
 @Component
 class Mixin extends Vue {
   created() {
-    deviceEnquire(deviceType => {
-      appModule.APP_TOGGLEDEVICE_MUTATE(deviceType);
+    deviceEnquire(({ deviceType, deviceValue, deviceNumber }) => {
+      appModule.APP_TOGGLEDEVICE_MUTATE({
+        deviceType,
+        deviceValue,
+        deviceNumber
+      });
     });
   }
 }

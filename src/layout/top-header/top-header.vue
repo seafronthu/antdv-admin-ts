@@ -1,7 +1,9 @@
 <!-- 顶部头 -->
 <template>
   <div class="top-header flex-row-between-center">
-    <Logo />
+    <Logo v-if="!lessThan768" />
+    <!-- 占位 -->
+    <div v-else></div>
     <div class="flex-row-end-stretch">
       <FullScreen />
       <ErrorStore v-if="navList.includes('ErrorLog')" />
@@ -12,7 +14,6 @@
 </template>
 
 <script lang="ts">
-import { namespace } from "vuex-class";
 import { Component, Vue } from "vue-property-decorator";
 import HeadUser from "./head-user.vue";
 import ErrorStore from "./error-store.vue";
@@ -20,7 +21,7 @@ import FullScreen from "./full-screen.vue";
 import HeadMessage from "./head-message.vue";
 import Logo from "../logo";
 import { RouteGlobal } from "@/types/route";
-const App = namespace("app");
+import { appModule } from "@s/index";
 @Component({
   components: {
     Logo,
@@ -31,8 +32,12 @@ const App = namespace("app");
   }
 })
 export default class TopHeader extends Vue {
-  @App.State("authRoutesList")
-  authRoutesList!: RouteGlobal.FrontStageRoutesObjINF[];
+  get authRoutesList() {
+    return appModule.authRoutesList;
+  }
+  get lessThan768() {
+    return appModule.lessThan768;
+  }
   get navList() {
     return this.authRoutesList
       .filter(v => {
