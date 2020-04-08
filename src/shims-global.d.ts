@@ -5,6 +5,6 @@
 // }
 declare namespace GLOBAL {
   interface MapINF<T> {
-    [key: string]: T;
+    [key: string]: T | MapINF<T>;
   }
 }

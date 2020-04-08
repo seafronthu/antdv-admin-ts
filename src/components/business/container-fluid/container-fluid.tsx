@@ -133,7 +133,9 @@ export default class ContainerFluid extends Vue {
       class: "container-fluid-spin"
     };
   }
-  created() {}
+  created() {
+    console.log(this);
+  }
   render(h: CreateElement) {
     const {
       containerStyle,
