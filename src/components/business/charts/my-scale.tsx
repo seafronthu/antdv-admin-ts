@@ -1,7 +1,7 @@
-/** 图例配置 **/
+/** 度量配置 **/
 import { Component, Vue } from "vue-property-decorator";
 @Component
-export default class MyLegend extends Vue {
+export default class MyScale extends Vue {
   /** data **/
   /** prop **/
   /** computed **/

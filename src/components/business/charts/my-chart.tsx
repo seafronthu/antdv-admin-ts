@@ -2,13 +2,16 @@
 // interface ChartOptions{
 
 // }
-import { Component, Vue, Prop } from "vue-property-decorator";
-// import { Chart } from "@antv/g2";
+import { Component, Vue, Prop, ProvideReactive } from "vue-property-decorator";
+import { Chart } from "@antv/g2";
 export default class MyChart extends Vue {
   /** data **/
+  chart: Chart | undefined;
   $refs!: {
     container: HTMLDivElement;
   };
+  @ProvideReactive("chartOptions")
+  chartOptions: any[] = [];
   // chartOptions =
   /** prop **/
   @Prop({
@@ -41,21 +44,21 @@ export default class MyChart extends Vue {
   /** computed **/
   /** watch **/
   /** methods **/
-  // init() {
-  //   const container = this.$refs["container"];
-  //   const { height, padding, width, autoFit, data } = this;
-  //   let chart = new Chart({
-  //     container,
-  //     autoFit,
-  //     width,
-  //     height,
-  //     padding
-  //   });
-  //   if (data.length > 0) {
-  //     chart.data(data);
-  //   }
-  //   this.chart(chart);
-  // }
+  init() {
+    const container = this.$refs["container"];
+    const { height, padding, width, autoFit, data } = this;
+    this.chart = new Chart({
+      container,
+      autoFit,
+      width,
+      height,
+      padding
+    });
+    if (data.length > 0) {
+      this.chart.data(data);
+    }
+    this.chart.render();
+  }
   /** lifecle **/
   /** render **/
   render() {

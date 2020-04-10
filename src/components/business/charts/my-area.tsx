@@ -10,6 +10,6 @@ export default class MyArea extends Vue {
   /** lifecle **/
   /** render **/
   render() {
-    return <div></div>;
+    return;
   }
 }

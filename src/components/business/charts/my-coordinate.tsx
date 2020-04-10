@@ -1,7 +1,7 @@
-/** 图例配置 **/
+/** 坐标系 **/
 import { Component, Vue } from "vue-property-decorator";
 @Component
-export default class MyLegend extends Vue {
+export default class MyCoordinate extends Vue {
   /** data **/
   /** prop **/
   /** computed **/
