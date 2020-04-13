@@ -1,7 +1,8 @@
 /** 坐标系 **/
 import { Component, Vue } from "vue-property-decorator";
+import Mixin from "./mixin";
 @Component
-export default class MyCoordinate extends Vue {
+export default class MyCoordinate extends Mixin {
   /** data **/
   /** prop **/
   /** computed **/
@@ -9,7 +10,4 @@ export default class MyCoordinate extends Vue {
   /** methods **/
   /** lifecle **/
   /** render **/
-  render() {
-    return <div></div>;
-  }
 }

@@ -1,8 +1,8 @@
-/** 图例配置 **/
+/** 柱状图 **/
 import { Component, Vue } from "vue-property-decorator";
 import Mixin from "./mixin";
 @Component
-export default class MyLegend extends Mixin {
+export default class MyInterval extends Mixin {
   /** data **/
   /** prop **/
   /** computed **/

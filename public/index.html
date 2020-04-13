@@ -16,8 +16,9 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <%=process.env.NODE_ENV === 'production' ? `
     <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.0.6/dist/g2.min.js"></script>
-    <%=process.env.NODE_ENV === 'production' ? `<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.0-rc.5/dist/antd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsencrypt@3.0.0-rc.1/bin/jsencrypt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>

@@ -1,5 +1,4 @@
 import { ComponentOptions } from "vue";
-
 const parentCharts = ["chart", "createView"];
 const series = ["line", "area", "pie", "point", "bar", "interval"];
 export const viewComponents = [
@@ -73,6 +72,7 @@ export function paramsTurnArray(param: any): any[] {
   }
   return [param];
 }
+// 链式执行
 export function chainFunc(target: any, obj: GLOBAL.MapINF<any>) {
   let arr = Object.keys(obj);
   let finished = arr.length - 1;
@@ -85,3 +85,68 @@ export function chainFunc(target: any, obj: GLOBAL.MapINF<any>) {
     target[key].apply(target, paramsTurnArray(obj[key]));
   }
 }
+function _possibleConstructorReturn(self: any, call: any) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self: any) {
+  if (self === void 0) {
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called"
+    );
+  }
+  return self;
+}
+// 兼容 Object.getPrototypeOf
+let _getPrototypeOf: any = function(o: any) {
+  _getPrototypeOf = Object.setPrototypeOf
+    ? Object.getPrototypeOf
+    : function _getPrototypeOf(o: any) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+      };
+  return _getPrototypeOf(o);
+};
+// 兼容 Object.setPrototypeOf
+let _setPrototypeOf: any = function(
+  o: { prototype: any; __proto__: any },
+  p: Function
+) {
+  _setPrototypeOf =
+    Object.setPrototypeOf ||
+    function _setPrototypeOf(o: { __proto__: any }, p: any) {
+      o.__proto__ = p;
+      return o;
+    };
+  return _setPrototypeOf(o, p);
+};
+function _createSuper(Derived: any) {
+  return function(this: any) {
+    const Super = _getPrototypeOf(Derived);
+    let result;
+    result = Super.apply(this, arguments);
+    return _possibleConstructorReturn(this, result);
+  };
+}
+export function _inherits(
+  subClass: { prototype: any },
+  superClass: { prototype: any } | null
+) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: { value: subClass, writable: true, configurable: true }
+  }); // 公共属性继承
+  if (superClass) _setPrototypeOf(subClass, superClass); // 完成静态属性继承
+}
+export let _extendsClass = function(parent: any) {
+  function _extendsClass(this: any, ...arg: []) {
+    return (_super !== null && _super.apply(this, arg)) || this;
+  }
+  _inherits(_extendsClass, parent);
+  const _super = _createSuper(_extendsClass);
+  return _extendsClass;
+};

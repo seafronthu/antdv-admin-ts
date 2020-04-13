@@ -9,7 +9,4 @@ export default class MyAnnotation extends Vue {
   /** methods **/
   /** lifecle **/
   /** render **/
-  render() {
-    return <div></div>;
-  }
 }

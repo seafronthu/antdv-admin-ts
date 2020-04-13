@@ -3,9 +3,9 @@
 
 // }
 import { Component, Vue, Prop, ProvideReactive } from "vue-property-decorator";
-// import { Chart } from "@antv/g2";
+import { Chart } from "@antv/g2";
 import { clearUndefined, chainFunc, paramsTurnArray } from "./core";
-// import { ChartCfg } from "@antv/g2/lib/interface";
+import { ChartCfg } from "@antv/g2/lib/interface";
 
 @Component
 export default class MyChart extends Vue {
@@ -88,11 +88,12 @@ export default class MyChart extends Vue {
       this.chart.changeData(data);
       return;
     }
-    let chartCfg = {
+    let chartCfg: ChartCfg = {
       ...this.allAttrs,
-      container
+      container: container as HTMLElement
     };
-    this.chart = new (window as any).G2.Chart(chartCfg);
+    console.log(chartCfg, chartOptions);
+    this.chart = new Chart(chartCfg);
     if (data.length > 0) {
       this.chart.data(data);
     }
@@ -129,7 +130,6 @@ export default class MyChart extends Vue {
         // 例：对area层的数组进行循环
         items[key].forEach((ite: { options: any }) => {
           // 对当前area添加参数
-          console.log(ite.options);
           let sonView = currView[key].apply(
             currView,
             paramsTurnArray(ite.options)
@@ -148,7 +148,11 @@ export default class MyChart extends Vue {
     // 需要延迟，否则宽度会计算错误
     setTimeout(() => {
       this.init(false);
-    }, 100);
+      // 主动触发resize
+      var e = document.createEvent("Event");
+      e.initEvent("resize", true, true);
+      window.dispatchEvent(e);
+    }, 50);
   }
   updated() {
     this.init(true);

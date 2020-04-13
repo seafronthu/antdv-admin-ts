@@ -8,12 +8,12 @@ if (process.env.NODE_ENV !== "production") {
   require("ant-design-vue/dist/antd.css");
 }
 import plugins from "@/plugins";
-import "@a/css/init.styl";
-import "@a/css/common.styl";
-import "@a/css/animate.styl";
+import "@assets/css/init.styl";
+import "@assets/css/common.styl";
+import "@assets/css/animate.styl";
 // import "element-ui/lib/theme-chalk/index.css";
 import "@/mocks/index.js";
-import "@a/js/global.js";
+import "@assets/js/global.js";
 import IconFont from "@h/icon-font";
 import ContainerFluid from "@b/container-fluid";
 Vue.use(Antd);

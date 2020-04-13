@@ -1,7 +1,8 @@
 /** 面积图 **/
 import { Component, Vue } from "vue-property-decorator";
+import Mixin from "./mixin";
 @Component
-export default class MyArea extends Vue {
+export default class MyArea extends Mixin {
   /** data **/
   /** prop **/
   /** computed **/
@@ -9,7 +10,4 @@ export default class MyArea extends Vue {
   /** methods **/
   /** lifecle **/
   /** render **/
-  render() {
-    return;
-  }
 }

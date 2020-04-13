@@ -19,6 +19,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const externals = isProduction
   ? {
       vue: "Vue",
+      "@antv/g2": "Chart",
       "ant-design-vue": "antd",
       jsencrypt: "JSEncrypt",
       moment: "moment"
@@ -49,7 +50,7 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set("@", pathResolve("src")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
-      .set("@a", pathResolve("src/assets")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
+      .set("@assets", pathResolve("src/assets")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
       .set("@s", pathResolve("src/stores"))
       .set("@v", pathResolve("src/views"))
       .set("@l", pathResolve("src/lib"))

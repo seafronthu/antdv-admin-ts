@@ -1,7 +1,8 @@
 /** 度量配置 **/
 import { Component, Vue } from "vue-property-decorator";
+import Mixin from "./mixin";
 @Component
-export default class MyScale extends Vue {
+export default class MyScale extends Mixin {
   /** data **/
   /** prop **/
   /** computed **/
@@ -9,7 +10,4 @@ export default class MyScale extends Vue {
   /** methods **/
   /** lifecle **/
   /** render **/
-  render() {
-    return <div></div>;
-  }
 }

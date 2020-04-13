@@ -1,60 +1,60 @@
 <!--  -->
 <template>
   <container-fluid padding>
-    <my-chart
-      :anmiate="true"
-      :data="data"
-      :autoFit="true"
-      :height="500"
-      :padding="100"
-    >
-      <my-scale
-        :value="{
-          value: {
-            min: 10000,
-            nice: true
-          },
-          year: {
-            range: [0, 1]
-          }
-        }"
-      ></my-scale>
-      <my-area position="year*value" shape="smooth"></my-area>
-      <my-line position="year*value" shape="smooth"></my-line>
-      <my-create-view
-        :data="[
-          { year: '1949 年', sales: 38 },
-          { year: '1950 年', sales: 52 },
-          { year: '1951 年', sales: 38 },
-          { year: '1952 年', sales: 52 },
-          { year: '1956 年', sales: 61 },
-          { year: '1957 年', sales: 145 },
-          { year: '1958 年', sales: 48 },
-          { year: '1959 年', sales: 38 },
-          { year: '1960 年', sales: 38 },
-          { year: '1962 年', sales: 38 }
-        ]"
+    <div class="home overflow-hidden">
+      <my-chart
+        :anmiate="true"
+        :data="data"
+        :autoFit="true"
+        :height="500"
+        :padding="100"
       >
-        <my-axis
-          :value="[
-            'year',
-            {
-              position: 'top',
-              label: { formatter: handleFormatter },
-              title: {
-                style: {
-                  fill: '#1890ff'
+        <my-scale
+          :value="{
+            value: {
+              min: 10000,
+              nice: true
+            },
+            year: {
+              range: [0, 1]
+            }
+          }"
+        ></my-scale>
+        <my-area position="year*value" shape="smooth"></my-area>
+        <my-line position="year*value" shape="smooth"></my-line>
+        <my-create-view
+          :data="[
+            { year: '1949 年', sales: 38 },
+            { year: '1950 年', sales: 52 },
+            { year: '1951 年', sales: 38 },
+            { year: '1952 年', sales: 52 },
+            { year: '1956 年', sales: 61 },
+            { year: '1957 年', sales: 145 },
+            { year: '1958 年', sales: 48 },
+            { year: '1959 年', sales: 38 },
+            { year: '1960 年', sales: 38 },
+            { year: '1962 年', sales: 38 }
+          ]"
+        >
+          <my-axis
+            :value="[
+              'year',
+              {
+                position: 'top',
+                label: { formatter: handleFormatter },
+                title: {
+                  style: {
+                    fill: '#1890ff'
+                  }
                 }
               }
-            }
-          ]"
-        ></my-axis>
-        <my-scale :value="['sales']"></my-scale>
-        <my-axis :value="['sales', { position: 'right' }]"></my-axis>
-        <my-interval position="year*sales"> </my-interval>
-      </my-create-view>
-    </my-chart>
-    <div class="home overflow-hidden">
+            ]"
+          ></my-axis>
+          <my-scale :value="['sales']"></my-scale>
+          <my-axis :value="['sales', { position: 'right' }]"></my-axis>
+          <my-interval position="year*sales"> </my-interval>
+        </my-create-view>
+      </my-chart>
       <a-row :gutter="[24, 24]">
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
@@ -74,14 +74,11 @@
         </a-col>
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
-            <div class="flex-row-start-center">
-              <number-statistic
-                class="margin-right-10"
-                title="周同比"
-                content="12%"
-                type="up"
-              />
-              <number-statistic title="日同比" content="12.3%" type="down" />
+            <div class="width-full">
+              <my-chart :data="data" :autoFit="true" :height="60">
+                <my-axis :value="false"></my-axis>
+                <my-area position="year*value"></my-area>
+              </my-chart>
             </div>
             <template #footer>
               <div class="text-ellipsis">日均访问量：<span>3000</span></div>
@@ -137,7 +134,7 @@
           </card-statistic>
         </a-col>
       </a-row>
-      <img alt="Vue logo" :src="require('@a/img/logo.png')" />
+      <img alt="Vue logo" :src="require('@assets/img/logo.png')" />
       <AnimateNumber
         :start-num="1000"
         :end-num="100"

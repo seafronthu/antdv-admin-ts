@@ -35,6 +35,7 @@ export default class Mixin extends Vue {
     const currentComponentTagName = getChartComponentTag(
       this.$options as OptionsINF
     );
+    console.log(this.$parent, this.chartOptions, currentComponentTagName);
     if (parentComponentTagName === "createView") {
       // viewOptions = {
       //   area: [{
