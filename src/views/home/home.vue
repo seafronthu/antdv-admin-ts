@@ -9,6 +9,7 @@
         :height="500"
         :padding="100"
       >
+        <my-legend :value="false"></my-legend>
         <my-scale
           :value="{
             value: {
@@ -24,21 +25,39 @@
         <my-line position="year*value" shape="smooth"></my-line>
         <my-create-view
           :data="[
-            { year: '1949 年', sales: 38 },
-            { year: '1950 年', sales: 52 },
-            { year: '1951 年', sales: 38 },
-            { year: '1952 年', sales: 52 },
-            { year: '1956 年', sales: 61 },
-            { year: '1957 年', sales: 145 },
-            { year: '1958 年', sales: 48 },
-            { year: '1959 年', sales: 38 },
-            { year: '1960 年', sales: 38 },
-            { year: '1962 年', sales: 38 }
+            {
+              continent: 'Americas',
+              Country: 'Argentina',
+              LifeExpectancy: 75.32,
+              GDP: 12779.37964,
+              Population: 40301927
+            },
+            {
+              continent: 'Americas',
+              Country: 'Brazil',
+              LifeExpectancy: 72.39,
+              GDP: 9065.800825,
+              Population: 190010647
+            },
+            {
+              continent: 'Americas',
+              Country: 'Canada',
+              LifeExpectancy: 80.653,
+              GDP: 36319.23501,
+              Population: 33390141
+            },
+            {
+              continent: 'Americas',
+              Country: 'Chile',
+              LifeExpectancy: 78.553,
+              GDP: 13171.63885,
+              Population: 16284741
+            }
           ]"
         >
           <my-axis
             :value="[
-              'year',
+              'GDP',
               {
                 position: 'top',
                 label: { formatter: handleFormatter },
@@ -50,9 +69,14 @@
               }
             ]"
           ></my-axis>
-          <my-scale :value="['sales']"></my-scale>
-          <my-axis :value="['sales', { position: 'right' }]"></my-axis>
-          <my-interval position="year*sales"> </my-interval>
+          <my-scale :value="['LifeExpectancy']"></my-scale>
+          <my-legend :value="false"></my-legend>
+          <my-axis :value="['LifeExpectancy', { position: 'right' }]"></my-axis>
+          <my-point
+            position="GDP*LifeExpectancy"
+            :size="['Population', [4, 50]]"
+            shape="circle"
+          ></my-point>
         </my-create-view>
       </my-chart>
       <a-row :gutter="[24, 24]">
@@ -97,14 +121,21 @@
         </a-col>
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
-            <div class="flex-row-start-center">
-              <number-statistic
-                class="margin-right-10"
-                title="周同比"
-                content="12%"
-                type="up"
-              />
-              <number-statistic title="日同比" content="12.3%" type="down" />
+            <div class="width-full">
+              <my-chart
+                :data="
+                  data.map(v => ({
+                    ...v,
+                    value: (v.value / (Math.random() * 100)) | 0
+                  }))
+                "
+                :autoFit="true"
+                :padding="10"
+                :height="60"
+              >
+                <my-axis :value="false"></my-axis>
+                <my-interval position="year*value"></my-interval>
+              </my-chart>
             </div>
             <template #footer>
               <div class="text-ellipsis">日均访问量：<span>3000</span></div>
@@ -113,14 +144,21 @@
         </a-col>
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
-            <div class="flex-row-start-center">
-              <number-statistic
-                class="margin-right-10"
-                title="周同比"
-                content="12%"
-                type="up"
-              />
-              <number-statistic title="日同比" content="12.3%" type="down" />
+            <div class="width-full">
+              <my-chart
+                :data="
+                  data.map(v => ({
+                    ...v,
+                    value: (v.value / (Math.random() * 100)) | 0
+                  }))
+                "
+                :autoFit="true"
+                :padding="10"
+                :height="60"
+              >
+                <my-axis :value="false"></my-axis>
+                <my-line position="year*value" shape="smooth"></my-line>
+              </my-chart>
             </div>
             <template #footer>
               <div class="text-ellipsis">日均访问量：<span>3000</span></div>
@@ -129,14 +167,34 @@
         </a-col>
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
-            <div class="flex-row-start-center">
-              <number-statistic
-                class="margin-right-10"
-                title="周同比"
-                content="12%"
-                type="up"
-              />
-              <number-statistic title="日同比" content="12.3%" type="down" />
+            <div class="width-full">
+              <my-chart
+                :data="[
+                  { item: '事例一', count: 40, percent: 0.4 },
+                  { item: '事例二', count: 21, percent: 0.21 },
+                  { item: '事例三', count: 17, percent: 0.17 },
+                  { item: '事例四', count: 13, percent: 0.13 },
+                  { item: '事例五', count: 9, percent: 0.09 }
+                ]"
+                :autoFit="true"
+                :height="60"
+              >
+                <my-coordinate
+                  :value="[
+                    'theta',
+                    {
+                      radius: 0.75
+                    }
+                  ]"
+                ></my-coordinate>
+                <my-axis :value="false"></my-axis>
+                <my-legend :value="false"></my-legend>
+                <my-interval
+                  position="percent"
+                  color="item"
+                  adjust="stack"
+                ></my-interval>
+              </my-chart>
             </div>
             <template #footer>
               <div class="text-ellipsis">日均访问量：<span>3000</span></div>

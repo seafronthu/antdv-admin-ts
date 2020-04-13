@@ -13,7 +13,7 @@ export default class MyCreateView extends Vue {
   @Inject(CHART_SYMBOL)
   chartOptions!: GLOBAL.MapINF<any>;
   @Provide(CREATE_VIEW_SYMBOL)
-  viewOptions!: GLOBAL.MapINF<any>;
+  viewOptions: GLOBAL.MapINF<any> = {};
   /** prop **/
   @Prop({
     type: Array
