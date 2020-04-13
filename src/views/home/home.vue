@@ -60,6 +60,7 @@
               'GDP',
               {
                 position: 'top',
+                line: null,
                 label: { formatter: handleFormatter },
                 title: {
                   style: {
@@ -71,7 +72,18 @@
           ></my-axis>
           <my-scale :value="['LifeExpectancy']"></my-scale>
           <my-legend :value="false"></my-legend>
-          <my-axis :value="['LifeExpectancy', { position: 'right' }]"></my-axis>
+          <my-axis
+            :value="[
+              'LifeExpectancy',
+              {
+                position: 'right',
+                tickLine: null,
+                grid: null,
+                line: null,
+                subTickLine: null
+              }
+            ]"
+          ></my-axis>
           <my-point
             position="GDP*LifeExpectancy"
             :size="['Population', [4, 50]]"
