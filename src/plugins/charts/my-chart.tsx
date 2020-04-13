@@ -2,9 +2,21 @@
 // interface ChartOptions{
 
 // }
-import { Component, Vue, Prop, ProvideReactive } from "vue-property-decorator";
+import {
+  Component,
+  Vue,
+  Prop,
+  ProvideReactive,
+  Provide
+} from "vue-property-decorator";
 import { Chart } from "@antv/g2";
-import { clearUndefined, chainFunc, paramsTurnArray } from "./core";
+import {
+  clearUndefined,
+  chainFunc,
+  paramsTurnArray,
+  CHART_SYMBOL,
+  CREATE_VIEW_SYMBOL
+} from "./core";
 import { ChartCfg } from "@antv/g2/lib/interface";
 
 @Component
@@ -14,8 +26,10 @@ export default class MyChart extends Vue {
   $refs!: {
     container: HTMLDivElement;
   };
-  @ProvideReactive("chartOptions")
+  @Provide(CHART_SYMBOL)
   chartOptions: GLOBAL.MapINF<any> = {};
+  @Provide(CREATE_VIEW_SYMBOL)
+  viewOptions: GLOBAL.MapINF<any> = {};
   // chartOptions =
   /** prop **/
   // @Prop({
@@ -92,7 +106,6 @@ export default class MyChart extends Vue {
       ...this.allAttrs,
       container: container as HTMLElement
     };
-    console.log(chartCfg, chartOptions);
     this.chart = new Chart(chartCfg);
     if (data.length > 0) {
       this.chart.data(data);

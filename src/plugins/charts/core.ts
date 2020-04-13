@@ -1,6 +1,8 @@
 import { ComponentOptions } from "vue";
 const parentCharts = ["chart", "createView"];
 const series = ["line", "area", "pie", "point", "bar", "interval"];
+export const CHART_SYMBOL = Symbol("chart");
+export const CREATE_VIEW_SYMBOL = Symbol("chart");
 export const viewComponents = [
   "line",
   "area",

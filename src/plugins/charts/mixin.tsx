@@ -1,18 +1,20 @@
 /** 坐标轴配置 **/
-import { Component, Vue, Prop, InjectReactive } from "vue-property-decorator";
+import { Component, Vue, Prop, Inject } from "vue-property-decorator";
 import {
   clearUndefined,
   getChartComponentTag,
   viewComponents,
-  OptionsINF
+  OptionsINF,
+  CHART_SYMBOL,
+  CREATE_VIEW_SYMBOL
 } from "./core";
 import { ObjINF } from "@/types";
 @Component
 export default class Mixin extends Vue {
   /** data **/
-  @InjectReactive("chartOptions")
+  @Inject(CHART_SYMBOL)
   chartOptions!: GLOBAL.MapINF<any>;
-  @InjectReactive("viewOptions")
+  @Inject(CREATE_VIEW_SYMBOL)
   viewOptions!: GLOBAL.MapINF<any>;
   /** prop **/
   @Prop({
@@ -35,7 +37,6 @@ export default class Mixin extends Vue {
     const currentComponentTagName = getChartComponentTag(
       this.$options as OptionsINF
     );
-    console.log(this.$parent, this.chartOptions, currentComponentTagName);
     if (parentComponentTagName === "createView") {
       // viewOptions = {
       //   area: [{

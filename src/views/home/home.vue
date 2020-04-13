@@ -75,9 +75,19 @@
         <a-col v-bind="col">
           <card-statistic title="总访问记录" tip="go" total="￥126,560">
             <div class="width-full">
-              <my-chart :data="data" :autoFit="true" :height="60">
+              <my-chart
+                :data="
+                  data.map(v => ({
+                    ...v,
+                    value: (v.value / (Math.random() * 100)) | 0
+                  }))
+                "
+                :autoFit="true"
+                :padding="10"
+                :height="60"
+              >
                 <my-axis :value="false"></my-axis>
-                <my-area position="year*value"></my-area>
+                <my-area position="year*value" shape="smooth"></my-area>
               </my-chart>
             </div>
             <template #footer>

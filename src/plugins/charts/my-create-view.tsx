@@ -1,19 +1,19 @@
 /** 视图 **/
+import { Component, Vue, Provide, Inject, Prop } from "vue-property-decorator";
 import {
-  Component,
-  Vue,
-  ProvideReactive,
-  InjectReactive,
-  Prop
-} from "vue-property-decorator";
-import { OptionsINF, getChartComponentTag, clearUndefined } from "./core";
+  OptionsINF,
+  getChartComponentTag,
+  clearUndefined,
+  CREATE_VIEW_SYMBOL,
+  CHART_SYMBOL
+} from "./core";
 @Component
 export default class MyCreateView extends Vue {
   /** data **/
-  @InjectReactive("chartOptions")
+  @Inject(CHART_SYMBOL)
   chartOptions!: GLOBAL.MapINF<any>;
-  @ProvideReactive("viewOptions")
-  viewOptions: GLOBAL.MapINF<any> = {};
+  @Provide(CREATE_VIEW_SYMBOL)
+  viewOptions!: GLOBAL.MapINF<any>;
   /** prop **/
   @Prop({
     type: Array
