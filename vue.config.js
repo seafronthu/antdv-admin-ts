@@ -19,7 +19,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const externals = isProduction
   ? {
       vue: "Vue",
-      "@antv/g2": "Chart",
+      "@antv/g2": "G2",
       "ant-design-vue": "antd",
       jsencrypt: "JSEncrypt",
       moment: "moment"
