@@ -31,7 +31,7 @@ function install(vm: VueConstructor) {
       onAbort = options.onAbort || onAbort;
     }
     if (!name && !path) {
-      return console.error("A path or name must exist");
+      throw Error("A path or name must exist");
     }
     if (refresh) {
       let { cacheRoutesList } = appModule;
