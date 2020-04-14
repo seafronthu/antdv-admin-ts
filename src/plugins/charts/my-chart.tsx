@@ -9,7 +9,7 @@ import {
   ProvideReactive,
   Provide
 } from "vue-property-decorator";
-import G2 from "@antv/g2";
+import { Chart } from "@antv/g2";
 import {
   clearUndefined,
   chainFunc,
@@ -106,7 +106,7 @@ export default class MyChart extends Vue {
       ...this.allAttrs,
       container: container as HTMLElement
     };
-    this.chart = new G2.Chart(chartCfg);
+    this.chart = new Chart(chartCfg);
     if (data.length > 0) {
       this.chart.data(data);
     }

@@ -72,3 +72,8 @@
     }
   }
 })(window, document);
+(function(W, D) {
+  if (process.env.NODE_ENV === "production") {
+    W.Chart = G2.Chart;
+  }
+})(window, document);
