@@ -40,11 +40,11 @@ export const isSameObjTool = (
   type: string = "=="
 ): boolean => {
   if (judgementTypeTool(obj1, "object") && judgementTypeTool(obj2, "object")) {
-    let arr: string[] = Object.keys(obj1 as ObjInF);
+    const arr: string[] = Object.keys(obj1 as ObjInF);
     for (let i = 0; i < arr.length; ++i) {
-      let key: string = arr[i];
-      let items1 = (obj1 as ObjInF)[key];
-      let items2 = (obj2 as ObjInF)[key];
+      const key: string = arr[i];
+      const items1 = (obj1 as ObjInF)[key];
+      const items2 = (obj2 as ObjInF)[key];
       if (!isSameObjTool(items1, items2)) {
         return false;
       }
@@ -55,8 +55,8 @@ export const isSameObjTool = (
     judgementTypeTool(obj2, "array")
   ) {
     for (let i = 0; i < (obj1 as ObjInF[]).length; ++i) {
-      let items1 = (obj1 as ObjInF[])[i];
-      let items2 = (obj2 as ObjInF[])[i];
+      const items1 = (obj1 as ObjInF[])[i];
+      const items2 = (obj2 as ObjInF[])[i];
       if (!isSameObjTool(items1, items2)) {
         return false;
       }
@@ -86,8 +86,8 @@ function getParentsOffsetTop(
   parentsEle: HTMLElement | undefined = document.documentElement ||
     document.body
 ): number {
-  let parentEle = selfEle.offsetParent; // 父级dom
-  let distance = selfEle.offsetTop;
+  const parentEle = selfEle.offsetParent; // 父级dom
+  const distance = selfEle.offsetTop;
   if (parentEle === parentsEle || parentEle === null) {
     return distance;
   }
@@ -110,7 +110,7 @@ async function errorCaptured(
   ...arg: any[]
 ) {
   try {
-    let res = await asyncFunc(...arg);
+    const res = await asyncFunc(...arg);
     return [null, res];
   } catch (err) {
     return [err, null];
@@ -125,7 +125,7 @@ function getRandomColor(
     opacity?: number;
   } = {}
 ) {
-  let { red = 255, green = 255, blue = 255, opacity = 1 } = options;
+  const { red = 255, green = 255, blue = 255, opacity = 1 } = options;
   const colFunc = (color: number): number =>
     Math.floor(Math.random() * (color + 1)); // +1 防止不能随机到当前color值
   const [r, g, b, a] = [colFunc(red), colFunc(green), colFunc(blue), opacity];
@@ -137,13 +137,13 @@ function urlJoin(query?: {
   [key: string]: string | (string | null)[];
 }): string {
   if (query) {
-    let keysArr = Object.keys(query);
+    const keysArr = Object.keys(query);
     if (keysArr.length === 0) {
       return "";
     }
     return keysArr
       .map(v => {
-        let value = query[v];
+        const value = query[v];
         if (Array.isArray(value)) {
           return value.map(its => `${v}=${its}`).join("&");
         }

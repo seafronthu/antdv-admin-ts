@@ -7,6 +7,7 @@ export default {
    * @description Cookie中储存的键名
    */
   cookieTokenName: "project-management-admin-token",
+  tokenName: "Authorization",
   /**
    * @description token在Cookie中存储的天数，默认1天
    */
@@ -30,13 +31,6 @@ export default {
    *              用来在菜单中显示文字
    */
   useI18n: false,
-  /**
-   * @description api请求基础路径
-   */
-  baseUrl: {
-    dev: "",
-    pro: "http://api.seafronthu.com"
-  },
   /**
    * @description 默认打开的时候展示的tagnav路由name值 首页的为第一个
    */

@@ -28,14 +28,14 @@
       ></a-button>
       <!-- 选项卡容器 -->
       <div
-        class="wrap"
         ref="scrollWrap"
+        class="wrap"
         @DOMMouseScroll.stop.prevent="handleScroll"
         @mousewheel.stop.prevent="handleScroll"
       >
         <div
-          class="container"
           ref="scrollContainer"
+          class="container"
           :style="{ transform: translates }"
         >
           <transition-group
@@ -47,21 +47,21 @@
             <TagButton
               v-for="(item, index) of newTabNavList"
               ref="tabNavRef"
-              class="tab-nav-anim"
               :key="item.key"
+              class="tab-nav-anim"
               height="100%"
               :effect="item.effect"
               :type="item.type"
               :closable="!item.notClosed"
+              :trigger="['contextmenu']"
+              dot
               @trigger-close="
                 handleClose({ item, command: 'CLOSE_CURRENT', index })
               "
               @trigger-tag-click="handleClick(item)"
-              :trigger="['contextmenu']"
               @trigger-menu-click="
                 menuOption => handleCommand(item, menuOption, index)
               "
-              dot
             >
               {{ item.title }}
               <template #menu>
@@ -295,8 +295,8 @@ export default class extends Vue {
   }
   // 滚动距离
   scrollFunc(offset: number) {
-    let wrapWidth = this.$refs.scrollWrap.offsetWidth;
-    let containerWidth = this.$refs.scrollContainer.offsetWidth;
+    const wrapWidth = this.$refs.scrollWrap.offsetWidth;
+    const containerWidth = this.$refs.scrollContainer.offsetWidth;
     if (offset > 0) {
       // 往左偏移
       this.diverge = Math.min(0, this.diverge + offset); // 内容在右边的时候往左偏移累加偏移量
@@ -319,10 +319,10 @@ export default class extends Vue {
   }
   // 选中之后根据位置进行偏移
   chooseToMoveFunc(ele: HTMLElement) {
-    let wrapWidth = this.$refs.scrollWrap.offsetWidth;
-    let containerWidth = this.$refs.scrollContainer.offsetWidth;
-    let tagOffsetLeft = ele.offsetLeft;
-    let tagWidth = ele.offsetWidth;
+    const wrapWidth = this.$refs.scrollWrap.offsetWidth;
+    const containerWidth = this.$refs.scrollContainer.offsetWidth;
+    const tagOffsetLeft = ele.offsetLeft;
+    const tagWidth = ele.offsetWidth;
     if (wrapWidth > containerWidth) {
       // 内容没有超出容器宽度
       this.diverge = 0; // 不偏移
@@ -343,12 +343,12 @@ export default class extends Vue {
   chooseNavTag(item: RouteGlobal.TabObjINF) {
     if (item.name) {
       this.$nextTick(() => {
-        let tabNavRef = this.$refs.tabNavRef;
+        const tabNavRef = this.$refs.tabNavRef;
         const index = this.tabNavList.findIndex(v => v.key === item.key);
         if (!~index) {
           return;
         }
-        let ele = tabNavRef[index].$el as HTMLElement;
+        const ele = tabNavRef[index].$el as HTMLElement;
         this.chooseToMoveFunc(ele);
       });
     }
@@ -362,7 +362,7 @@ export default class extends Vue {
     menuOption: MenuOptionINF,
     index: number
   ) {
-    let command: DropdownType = menuOption.key as DropdownType;
+    const command: DropdownType = menuOption.key as DropdownType;
     if (command === "REFRESH") {
       this.$routerReplace({
         name: item.name,

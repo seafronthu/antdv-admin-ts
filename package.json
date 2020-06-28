@@ -5,7 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deve": "vue-cli-service serve --mode deve",
+    "build-test": "vue-cli-service serve --mode test",
+    "build-prod": "vue-cli-service serve --mode prod"
   },
   "dependencies": {
     "@antv/data-set": "^0.11.4",

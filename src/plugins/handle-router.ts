@@ -6,7 +6,7 @@ function install(vm: VueConstructor) {
     options: routerPushOptionsObjINF | string,
     fresh?: boolean
   ) {
-    let { APP_SETCACHEROUTES_MUTATE } = appModule;
+    const { APP_SETCACHEROUTES_MUTATE } = appModule;
     let refresh: boolean = false;
     let path: string | undefined;
     let name: string | undefined;
@@ -34,14 +34,17 @@ function install(vm: VueConstructor) {
       throw Error("A path or name must exist");
     }
     if (refresh) {
-      let { cacheRoutesList } = appModule;
+      const { cacheRoutesList } = appModule;
       // 刷新的时候清除当前跳转路由缓存
       APP_SETCACHEROUTES_MUTATE(
         cacheRoutesList.filter(items => items.name !== name)
       );
       if (this.$route.name === name) {
-        let redirectParams = params || {};
-        redirectParams.redirect = name;
+        const redirectParams = {
+          ...params,
+          redirect: name
+        };
+        // redirectParams.redirect = name;
         // 用于清除缓存之后重新渲染
         setTimeout(() => {
           this.$router.replace(
@@ -85,7 +88,7 @@ function install(vm: VueConstructor) {
     options: routerPushOptionsObjINF | string | undefined,
     fresh: boolean = true
   ) {
-    let { APP_SETCACHEROUTES_MUTATE, cacheRoutesList } = appModule;
+    const { APP_SETCACHEROUTES_MUTATE, cacheRoutesList } = appModule;
     const that = this;
     const routeName = that.$route.name;
     let refresh: boolean = true;
@@ -116,7 +119,7 @@ function install(vm: VueConstructor) {
       APP_SETCACHEROUTES_MUTATE(
         cacheRoutesList.filter(items => items.name !== name)
       );
-      let redirectParams = params || {};
+      const redirectParams = params || {};
       redirectParams.redirect = name;
       // 用于清除缓存之后重新渲染
       setTimeout(() => {

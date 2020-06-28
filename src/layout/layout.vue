@@ -7,15 +7,15 @@
     <a-layout>
       <Drawer
         v-if="lessThan768"
+        v-model="collapse"
         position="left"
         :closable="false"
         :visible="collapse"
-        v-model="collapse"
       />
       <a-layout-sider
         v-else
-        :collapsible="true"
         v-model="collapse"
+        :collapsible="true"
         width="256px"
       >
         <Menu :collapse="collapse" theme="dark" />
@@ -131,7 +131,7 @@ export default class Layout extends Vue {
   }
   // 处理缓存路由
   dealCacheRoutes(to: RouteGlobal.RouteINF) {
-    let cacheRoutesList = [...this.cacheRoutesList];
+    const cacheRoutesList = [...this.cacheRoutesList];
     const notCache = to.meta && to.meta.notCache;
     if (!notCache && !cacheRoutesList.some(v => v.name === to.name)) {
       cacheRoutesList.push(to);
@@ -140,7 +140,7 @@ export default class Layout extends Vue {
   }
   // 处理标签页
   dealTabNav(to: RouteGlobal.RouteINF) {
-    let {
+    const {
       name,
       fullPath,
       query,
@@ -151,12 +151,12 @@ export default class Layout extends Vue {
         hideTab,
         notCache,
         // notSingleTab,
-        beforeClosedCallback,
-        title
+        beforeClosedCallback
       }
     } = to;
-    let paramsStr = urlJoin(params);
-    let queryStr = urlJoin(query);
+    let { title } = to.meta;
+    const paramsStr = urlJoin(params);
+    const queryStr = urlJoin(query);
     title =
       title +
       (paramsStr ? `?params:${paramsStr}` : "") +
@@ -164,7 +164,7 @@ export default class Layout extends Vue {
     const tabList = [...this.tabList];
     let hasTab: boolean = false; // 是否有tab
     for (let i = 0; i < tabList.length; ++i) {
-      let items = tabList[i];
+      const items = tabList[i];
       items.checked = false;
       // if (items.notSingleTab && items.key === fullPath) {
       //   items.checked = true;

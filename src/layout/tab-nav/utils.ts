@@ -24,7 +24,7 @@ export function closeCurrentTab({ vm, items, index, routeName }: CloseTabINF) {
     query?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
     params?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
   } = { name: "Home" };
-  let { query, params, name } = items;
+  const { query, params, name } = items;
   // 判断当前关闭标签页是否已经修改并且有回调函数
   if (items.beforeClosedCallback && items.modified) {
     items.beforeClosedCallback(items);
@@ -60,10 +60,10 @@ export function closeRightTab({ vm, items, index, routeName }: CloseTabINF) {
     query?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
     params?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
   } = { name: "Home" };
-  let leftTabNavList: RouteGlobal.TabObjINF[] = [];
-  let rightTabNavList: RouteGlobal.TabObjINF[] = [];
-  let modifiedArr: RouteGlobal.TabObjINF[] = [];
-  let cacheRoutesNameList: string[] = [];
+  const leftTabNavList: RouteGlobal.TabObjINF[] = [];
+  const rightTabNavList: RouteGlobal.TabObjINF[] = [];
+  const modifiedArr: RouteGlobal.TabObjINF[] = [];
+  const cacheRoutesNameList: string[] = [];
   for (let i = 0; i < tabNavList.length; ++i) {
     const tabNav = tabNavList[i];
     const { notClosed, beforeClosedCallback, modified, name } = tabNav;
@@ -112,10 +112,10 @@ export function closeLeftTab({ vm, items, index, routeName }: CloseTabINF) {
     query?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
     params?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
   } = { name: "Home" };
-  let leftTabNavList: RouteGlobal.TabObjINF[] = [];
-  let rightTabNavList: RouteGlobal.TabObjINF[] = [];
-  let modifiedArr: RouteGlobal.TabObjINF[] = [];
-  let cacheRoutesNameList: string[] = [];
+  const leftTabNavList: RouteGlobal.TabObjINF[] = [];
+  const rightTabNavList: RouteGlobal.TabObjINF[] = [];
+  const modifiedArr: RouteGlobal.TabObjINF[] = [];
+  const cacheRoutesNameList: string[] = [];
   for (let i = 0; i < tabNavList.length; ++i) {
     const tabNav = tabNavList[i];
     const { notClosed, beforeClosedCallback, modified, name } = tabNav;
@@ -158,14 +158,14 @@ export function closeLeftTab({ vm, items, index, routeName }: CloseTabINF) {
 }
 export function closeOtherTab({ vm, items, index, routeName }: CloseTabINF) {
   const { tabNavList } = vm;
-  let newTabNavList: RouteGlobal.TabObjINF[] = [];
+  const newTabNavList: RouteGlobal.TabObjINF[] = [];
   let route: {
     name: string;
     query?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
     params?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
   } = { name: "Home" };
-  let modifiedArr: RouteGlobal.TabObjINF[] = [];
-  let cacheRoutesNameList: string[] = [];
+  const modifiedArr: RouteGlobal.TabObjINF[] = [];
+  const cacheRoutesNameList: string[] = [];
   for (let i = 0; i < tabNavList.length; ++i) {
     const tabNav = tabNavList[i];
     const { notClosed, beforeClosedCallback, modified, name } = tabNav;
@@ -196,14 +196,14 @@ export function closeOtherTab({ vm, items, index, routeName }: CloseTabINF) {
 }
 export function closeAllTab({ vm, routeName }: CloseAllTabINF) {
   const { tabNavList } = vm;
-  let newTabNavList: RouteGlobal.TabObjINF[] = [];
+  const newTabNavList: RouteGlobal.TabObjINF[] = [];
   let route: {
     name: string;
     query?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
     params?: RouteGlobal.KeyValuePair<string | (string | null)[]>;
   } = { name: "Home" };
-  let modifiedArr: RouteGlobal.TabObjINF[] = [];
-  let cacheRoutesNameList: string[] = [];
+  const modifiedArr: RouteGlobal.TabObjINF[] = [];
+  const cacheRoutesNameList: string[] = [];
   for (let i = 0; i < tabNavList.length; ++i) {
     const tabNav = tabNavList[i];
     const { notClosed, beforeClosedCallback, modified, name } = tabNav;

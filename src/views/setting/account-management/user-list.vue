@@ -12,9 +12,9 @@
           <a-col v-bind="col">
             <a-form-item>
               <a-input
+                v-model="searchForm.name"
                 class="input"
                 placeholder="请输入搜索内容"
-                v-model="searchForm.name"
               >
                 <template #prefix>
                   <a-icon type="search" />
@@ -90,9 +90,10 @@ export default class UserList extends Vue {
   // methods
   handleChangeDate() {}
   mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.loading = false;
+    //   window.location.href = "http://172.16.110.5:8080/xml-form/form-create";
+    // }, 1000);
   }
 }
 </script>

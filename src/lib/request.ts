@@ -1,23 +1,20 @@
 import { userModule } from "@s/index";
-import axios, { ResponseType, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  ResponseType,
+  AxiosRequestConfig,
+  AxiosResponse,
+  Method
+} from "axios";
 import route from "@/routes";
 import config from "@/config";
 import { message } from "ant-design-vue";
-const { initialPageName } = config;
 import qs from "qs";
 import { appModule } from "@s/index";
+const { initialPageName, tokenName } = config;
 interface MapT {
   [key: string]: string;
 }
-type MethodTYPE =
-  | "options"
-  | "get"
-  | "head"
-  | "post"
-  | "put"
-  | "delete"
-  | "trace"
-  | "connect";
+type MethodTYPE = Method;
 interface DataINF {
   [key: string]:
     | MapT
@@ -59,7 +56,7 @@ interface OptionsObjINF {
   method: MethodTYPE;
   baseURL?: string;
   url: string;
-  responseType: string;
+  responseType: ResponseType;
   headers: MapT;
   data: any;
   timeout?: number;
@@ -69,7 +66,7 @@ interface AxiosConfigObjINF {
   baseURL?: string;
   url: string;
   headers: MapT;
-  responseType?: string;
+  responseType?: ResponseType;
   data?: any;
   params?: any;
   timeout?: number;
@@ -89,7 +86,7 @@ function addErrorLog(info: ErrorInfoINF) {
     config: { url, baseURL, headers, params, data, method },
     response: { status, statusText }
   } = info;
-  let errData = {
+  const errData = {
     type: "ajax",
     message,
     name,
@@ -143,9 +140,11 @@ axios.interceptors.response.use(
   }
 );
 class HttpRequest {
-  public baseUrl: string;
-  public constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+  public baseURL: string;
+  public origin: string;
+  public constructor(baseURL: string) {
+    this.origin = window.location.origin;
+    this.baseURL = baseURL + "/";
   }
   public getInitConfig() {
     const config = {
@@ -156,26 +155,26 @@ class HttpRequest {
   }
   public getApiUrl(options: OptionsObjINF): OptionsObjINF {
     let baseURL = options.baseURL;
-    let url = options.url;
-    if (!baseURL && !~url.indexOf("/")) {
-      baseURL = this.baseUrl;
+    const url = options.url;
+    if (!baseURL && url[0] === "/") {
+      baseURL = this.origin;
     }
-    options.baseURL = baseURL;
+    options.baseURL = baseURL ? baseURL : this.baseURL;
     return options;
   }
   public arrageConfig(options: OptionsObjINF): AxiosConfigObjINF {
     options = this.getApiUrl(options);
-    let method = options.method;
-    let baseURL = options.baseURL;
-    let url = options.url;
-    let headers = options.headers || {};
+    const method = options.method;
+    const baseURL = options.baseURL;
+    const url = options.url;
+    const headers = options.headers || {};
     let data = options.data || {};
     // if (!options.notLogin) {
 
-    headers.token = userModule.token;
+    headers[tokenName] = userModule.token;
     // data.token = store.state.user.token
     // }
-    let config: AxiosConfigObjINF = {
+    const config: AxiosConfigObjINF = {
       method,
       baseURL,
       url,
@@ -221,7 +220,7 @@ class HttpRequest {
       data = option.data;
       notLogin = option.notLogin || notLogin;
     }
-    let options: ReqObjINF = {
+    const options: ReqObjINF = {
       url,
       notLogin,
       data,
@@ -249,7 +248,7 @@ class HttpRequest {
     //   // 需要登录且没有token
     //   return { code: 4008, message: "未登录" };
     // }
-    let config = Object.assign(
+    const config = Object.assign(
       this.getInitConfig(),
       this.arrageConfig({
         baseURL,
@@ -266,32 +265,32 @@ class HttpRequest {
     return resData;
   }
   public async postData(option: ApiObjINF | string, data?: object) {
-    let headers = {
+    const headers = {
       "Content-Type": "application/x-www-form-urlencoded",
       "Accept-Language": "charset=utf-8"
     };
-    let options = this.getRequestOptions(option, data, {
+    const options = this.getRequestOptions(option, data, {
       headers,
       method: "post"
     });
     return this.request(options);
   }
   public postJson(option: ApiObjINF | string, data?: object) {
-    let headers = {
+    const headers = {
       "Content-Type": "application/json",
       "Accept-Language": "charset=utf-8"
     };
-    let options = this.getRequestOptions(option, data, {
+    const options = this.getRequestOptions(option, data, {
       headers,
       method: "post"
     });
     return this.request(options);
   }
   public async getQuery(option: ApiObjINF | string, data?: object) {
-    let headers = {
+    const headers = {
       "Accept-Language": "charset=utf-8"
     };
-    let options = this.getRequestOptions(option, data, {
+    const options = this.getRequestOptions(option, data, {
       headers,
       method: "get"
     });

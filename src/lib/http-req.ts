@@ -1,8 +1,5 @@
 import HttpRequest from "./request";
-const origin: string = window.location.origin;
-let baseUrl: string = `${origin}/play/index.php/`;
-if (~origin.indexOf("play.hahaipi.com")) {
-  baseUrl = `${origin}/index.php/`;
-}
-const httpReq = new HttpRequest(baseUrl);
+const httpReq = new HttpRequest(
+  process.env.VUE_APP_ORIGIN || window.location.origin
+);
 export default httpReq;

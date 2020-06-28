@@ -1,4 +1,5 @@
 const { join, resolve } = require("path");
+// const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 // const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // const zopfli = require('@gfx/zopfli')
@@ -48,6 +49,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === "production" ? "/" : "/", // 项目相对路径
   // assetsDir: './',
   chainWebpack: config => {
+    console.log(pathResolve("src"));
     config.resolve.alias
       .set("@", pathResolve("src")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
       .set("@assets", pathResolve("src/assets")) // key,value自行定义，比如.set('@@', pathResolve('src/components'))
@@ -63,7 +65,6 @@ module.exports = {
     types.forEach(type =>
       addStyleResource(config.module.rule("stylus").oneOf(type))
     );
-    // 开启比gzip体验更好的Zopfli压缩
   },
   // 修改webpack的配置
   configureWebpack: config => {
@@ -72,11 +73,36 @@ module.exports = {
     if (process.env.NODE_ENV === "production") {
       plugins = [
         new CompressionWebpackPlugin({
+          algorithm: "gzip",
+          minRatio: 0.8, // 压缩比
           test: /\.js$|\.html$|\.css$/, // 匹配文件名
           threshold: 10240, // 对超过10k的数据进行压缩 服务端需判断是否有gz文件
           deleteOriginalAssets: false // 是否删除原文件
         })
       ];
+      // webpack(config).hooks.done.tap("done", stats => {
+      //   console.log(111)
+      //   console.log(
+      //     stats.toString({
+      //       colors: true,
+      //       chunks: true, // 这里设为true
+      //       assets: true,
+      //       children: false,
+      //       modules: false
+      //     })
+      //   );
+      // });
+      // config.hooks.done.tap("done", stats => {
+      //   console.log(
+      //     stats.toString({
+      //       colors: true,
+      //       chunks: true, // 这里设为true
+      //       assets: true,
+      //       children: false,
+      //       modules: false
+      //     })
+      //   );
+      // });
     }
     return {
       plugins,

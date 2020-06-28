@@ -206,7 +206,7 @@ export default class App extends VuexModule {
     errorInfo: ErrorInfoINF,
     userInfo: { headimg: string; userId: number; account: string }
   ) {
-    let data = {
+    const data = {
       ...errorInfo,
       ...userInfo,
       time: new Date().getTime()
@@ -235,11 +235,11 @@ export default class App extends VuexModule {
         frontstageRoutes,
         initialRoutes
       });
-      let tabList: RouteGlobal.TabObjINF[] = [];
+      const tabList: RouteGlobal.TabObjINF[] = [];
       for (let i = 0; i < this.authRoutesList.length; ++i) {
-        let items = this.authRoutesList[i];
+        const items = this.authRoutesList[i];
         if (items.meta && items.meta.showInitialTab) {
-          let {
+          const {
             name,
             path,
             meta: {
