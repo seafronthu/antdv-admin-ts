@@ -31,7 +31,7 @@
     "moment": "^2.24.0",
     "mz": "^2.7.0",
     "nprogress": "^0.2.0",
-    "qs": "^6.9.1",
+    "qs": "^6.9.7",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.4.1",
